@@ -1,0 +1,80 @@
+@import 'colors';
+
+$footerButton-padding-vertical: 20;
+$footerButton-padding-hotisonal: 70;
+
+.container {
+  //TODO: Font-family
+
+  flex: 1;
+  background-color: $bgColor;
+  text-align: center;
+  display: flex;
+
+  flex-direction: column;
+}
+
+/***************************** Header start ****************************************/
+.headerText {
+  font-size: 35;
+
+  color: $whiteTextColor;
+}
+
+.backBtn {
+  padding-top: 20;
+  font-size: 40;
+}
+
+.headerGradient {
+  padding-top: 12;
+  padding-bottom: 12;
+  opacity: 10;
+
+  justify-content: center;
+  margin-top: 37;
+  display: flex;
+  flex-direction: row;
+}
+
+/***************************** Header end ****************************************/
+
+.footer {
+  display: flex;
+  flex-direction: row;
+
+  background-color: $footer;
+  color: $whiteTextColor;
+
+  margin-top: auto;
+}
+
+.footerChat {
+  margin-right: auto;
+  margin-left: auto;
+
+  color: $whiteTextColor;
+
+  padding-top: $footerButton-padding-vertical;
+  padding-bottom: $footerButton-padding-vertical;
+  padding-left: $footerButton-padding-hotisonal; //ska ändras
+  padding-right: $footerButton-padding-hotisonal; //ska ändras
+
+  background-color: $footer;
+  text-align: center;
+}
+
+.footerWatch {
+  margin-right: auto;
+  margin-left: auto;
+
+  color: $whiteTextColor;
+
+  padding-top: $footerButton-padding-vertical;
+  padding-bottom: $footerButton-padding-vertical;
+  padding-left: $footerButton-padding-hotisonal; //ska ändras
+  padding-right: $footerButton-padding-hotisonal; //ska ändras
+
+  align-self: flex-end;
+  background-color: $footer;
+}
