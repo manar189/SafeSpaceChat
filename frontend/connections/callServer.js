@@ -1,2 +1,7 @@
-// Här inne ska en dynamisk "fetch"-funktion skrivas liknande /helpers/api.js
-// i freindChat. Alla filer i mappen "connections" gör server calls via "callServer.js".
+import config from '../../backend/config';
+
+const serverURL = `http://${config.server.host}:${config.server.port}`;
+
+export default async (url) => {
+  return fetch(serverURL + url);
+};

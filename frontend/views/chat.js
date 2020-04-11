@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
 
 import {
   Text,
@@ -9,10 +10,9 @@ import {
   FlatList,
 } from 'react-native';
 
+import config from '../../backend/config';
 import loadMessages from '../connections/loadMessages';
-
 import Header from '../styles/components/header.js';
-
 import appStyles from '../styles/components.scss';
 import chatStyles from '../styles/chat.scss';
 
@@ -22,34 +22,56 @@ export default class ChatView extends Component {
 
     this.state = {
       userName: 'Kalle Kula',
-      currUser: '',
+      userId: '5e843ddbbd8a99081cd3f613',
+      conversationId: '5e68c508c18e2a00ee6bf0f8',
       currMsg: '',
       messages: [],
       loading: true,
     };
-
-    this.submitChatMessage = this.submitChatMessage.bind(this);
   }
 
-  async componentDidMount() {
-    var loadedMessages = loadMessages('5e68c508c18e2a00ee6bf0f8');
+  componentDidMount() {
+    const loadedMessages = loadMessages(this.state.conversationId);
+    this.setState({ });
 
-    this.setState({ messages: loadedMessages, currUser: 'päron' }); //TODO: Här måste userId kunna hämtas
-  }
-
-  //connection?
-  componentWillUnmount() {
-    this.socket.emit('disconnect', {
-      senderId: '5e843ddbbd8a99081cd3f613',
+    this.socket = io(`http://${config.server.host}:${config.server.port}`);
+    this.socket.emit('init', {
+      senderId: this.state.userId,
+    });
+    this.socket.on('message', message => {
+      const newMessage = {
+        createdAt: message.createdAt,
+        text: message.text,
+        userId: message.senderId,
+        _id: message.msgId,
+      };
+      this.newMessage(message.conversationId, newMessage);
     });
   }
 
-  //connection
-  submitChatMessage() {
-    this.socket.emit('message', this.state.currMsg);
-    console.log(`Message sent: ${this.state.currMsg}`);
+  componentWillUnmount() {
+    this.socket.emit('disconnect', {
+      senderId: this.state.userId,
+    });
+  }
+
+  submitChatMessage = () => {
+    this.socket.emit('message', {
+      text: this.state.currMsg,
+      userId: this.state.userId,
+      receiverId: '5e843ddbbd8a99081cd3f613', // TEMP
+      conversationId: this.state.conversationId,
+    });
+
+    this.newMessage(this.state.conversationId, this.state.userId);
     this.setState({ currMsg: '' });
     this.textInput.clear();
+  }
+
+  newMessage = (conversationId, message) => {
+    if(conversationId == this.state.conversationId){
+      // TODO: Gör så att meddelandet som skapats visas i chatten
+    }
   }
 
   render() {
@@ -60,7 +82,7 @@ export default class ChatView extends Component {
 
         <FlatList
           ref={(el) => (this.list = el)}
-          data={this.state.messages}
+          data={this.state.messages}          
           renderItem={({ item }) => (
             <Item msg={item} currUser={this.state.currUser} />
           )}
@@ -91,8 +113,8 @@ export default class ChatView extends Component {
   }
 }
 
-function Item({ msg, currUser }) {
-  if (msg.userId != currUser) {
+function Item({ msg, userId }) {
+  if (msg.userId != userId) {
     return (
       <View style={[chatStyles.msg, chatStyles.msgRecieved]}>
         <Text>{msg.text}</Text>

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SafeSpace-refactor",
-    "slug": "SafeSpace-refactor",
+    "name": "SafeSpaceChat",
+    "slug": "SafeSpaceChat",
     "platforms": ["ios", "android", "web"],
     "packagerOpts": {
       "config": "metro.config.js",
