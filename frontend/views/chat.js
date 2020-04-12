@@ -30,8 +30,22 @@ export default class ChatView extends Component {
     };
   }
 
+/*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backen/config TILL DIN LOCALA HEMMA!!!
+    Läget är följande:
+    - När man skriver ett meddelande så skickas det via socket.io till backend som skickar tillbaka samma meddelande till
+      en socket med mottagarens id, samt skapar meddelandet i databasen.
+    - Funktionen "newMessage" ska göra så att nya meddelanden läggs till i den aktiva chatten om det har rätt conversationId.
+      Alltså ska den funktionen aktiveras både när man själv skriver ett meddelande och när man tar emot ett meddelande i den
+      aktiva chatten. I nuläget har jag gjort så att meddelanden skickas till mig själv vilket gör att newMessage kallas på två gånger.
+    - Funktionen "loadMessages" är jag osäker på. Man får tillbaka ett "promise" vilket man får när man har async funktioner.
+      Jag vet inte vad felet med funktionen är eller om jag bara måste hantera datan annorlunda men man får tillbaka bra info
+      om man kallar på servern från Insomnia.
+*/
+
   componentDidMount() {
+    // TODO: loadMessages är trasig, eller sättet man behandlar datan på
     const loadedMessages = loadMessages(this.state.conversationId);
+    console.log(`Loaded messages: ${loadedMessages}`);
     this.setState({ });
 
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
@@ -39,13 +53,12 @@ export default class ChatView extends Component {
       senderId: this.state.userId,
     });
     this.socket.on('message', message => {
-      const newMessage = {
-        createdAt: message.createdAt,
+      const incomingMessage = {
         text: message.text,
-        userId: message.senderId,
-        _id: message.msgId,
+        userId: message.userId,
+        conversationId: message.conversationId,
       };
-      this.newMessage(message.conversationId, newMessage);
+      this.renderNewMessage(incomingMessage);
     });
   }
 
@@ -56,20 +69,22 @@ export default class ChatView extends Component {
   }
 
   submitChatMessage = () => {
-    this.socket.emit('message', {
+    const newMessage = {
       text: this.state.currMsg,
       userId: this.state.userId,
-      receiverId: '5e843ddbbd8a99081cd3f613', // TEMP
+      receiverId: '5e843ddbbd8a99081cd3f613',
       conversationId: this.state.conversationId,
-    });
+    };
 
-    this.newMessage(this.state.conversationId, this.state.userId);
+    this.socket.emit('message',  newMessage);
+    this.renderNewMessage(newMessage);
     this.setState({ currMsg: '' });
     this.textInput.clear();
   }
 
-  newMessage = (conversationId, message) => {
-    if(conversationId == this.state.conversationId){
+  renderNewMessage = (message) => {
+    console.log(`New message: ${message.text}`);
+    if(message.conversationId == this.state.conversationId){
       // TODO: Gör så att meddelandet som skapats visas i chatten
     }
   }

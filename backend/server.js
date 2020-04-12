@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const config = require('./config');
 const loadMessages = require('./handlers/loadMessages');
+const createMessage = require('./handlers/createMessage');
 
 app.use(cors());
 app.use(express.json());
@@ -27,13 +28,15 @@ io.on('connection', (socket) => {
         console.log('UserID: ' + userId.senderId);
         sockets[userId.senderId] = socket;
     });
+    // Recieves messages from frontend
     socket.on('message', (message) => {
         console.log(`Message recieved in server: ${message.text}, ${message.userId}, ${message.receiverId}, ${message.conversationId}`);
+        // Sends messages to another user with another socket
         if (sockets[message.receiverId]) {
-          console.log(`In sockets[${message.receiverId}]`);
+          console.log(`Sending message to socket: ${message.receiverId}`);
           sockets[message.receiverId].emit('message', message);
         }
-        //handlers.createMessage(message);
+        createMessage(message); // Create the message in database
       });
       socket.on('disconnect', (userId) => {
         console.log(`User disconnected: ${userId.senderId}`);
@@ -41,6 +44,7 @@ io.on('connection', (socket) => {
       });
 });
 
+// Routing to load all messages from a conversation
 app.get('/conversations/:id', (req, res) => {loadMessages(req.params.id, res)});
 
 server.listen(config.server.port, ()=>{
