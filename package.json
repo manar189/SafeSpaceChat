@@ -10,7 +10,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "esm": "^3.2.25",
-    "expo": "^37.0.6",
+    "expo": "^37.0.7",
     "expo-linear-gradient": "^8.1.0",
     "express": "^4.17.1",
     "global": "^4.4.0",

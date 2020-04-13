@@ -30,7 +30,7 @@ export default class ChatView extends Component {
     };
   }
 
-/*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backen/config TILL DIN LOCALA HEMMA!!!
+  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backend/config TILL DIN LOKALA HEMMA!!!
     Läget är följande:
     - När man skriver ett meddelande så skickas det via socket.io till backend som skickar tillbaka samma meddelande till
       en socket med mottagarens id, samt skapar meddelandet i databasen.
@@ -42,17 +42,16 @@ export default class ChatView extends Component {
       om man kallar på servern från Insomnia.
 */
 
-  componentDidMount() {
-    // TODO: loadMessages är trasig, eller sättet man behandlar datan på
-    const loadedMessages = loadMessages(this.state.conversationId);
-    console.log(`Loaded messages: ${loadedMessages}`);
-    this.setState({ });
+  async componentDidMount() {
+    const loadedMessages = await loadMessages(this.state.conversationId);
+
+    this.setState({ messages: loadedMessages });
 
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
-    this.socket.on('message', message => {
+    this.socket.on('message', (message) => {
       const incomingMessage = {
         text: message.text,
         userId: message.userId,
@@ -76,16 +75,17 @@ export default class ChatView extends Component {
       conversationId: this.state.conversationId,
     };
 
-    this.socket.emit('message',  newMessage);
+    this.socket.emit('message', newMessage);
     this.renderNewMessage(newMessage);
     this.setState({ currMsg: '' });
     this.textInput.clear();
-  }
+  };
 
-  renderNewMessage = (message) => {
+  renderNewMessage(message) {
     console.log(`New message: ${message.text}`);
-    if(message.conversationId == this.state.conversationId){
-      // TODO: Gör så att meddelandet som skapats visas i chatten
+    if (message.conversationId == this.state.conversationId) {
+      this.state.messages.push(message);
+      this.render();
     }
   }
 
@@ -97,12 +97,12 @@ export default class ChatView extends Component {
 
         <FlatList
           ref={(el) => (this.list = el)}
-          data={this.state.messages}          
+          data={this.state.messages}
           renderItem={({ item }) => (
-            <Item msg={item} currUser={this.state.currUser} />
+            <Item msg={item} userId={this.state.userId} />
           )}
-          keyExtractor={(item) => item.id} //TODO: Unikt ID för alla meddelanden
-          // initialScrollIndex={DATA.length - 1} // Gör att man hamnar längst ner i konversationen och får scrolla uppåt, gissar på att det inte kommer funka när data hämtas från db?
+          keyExtractor={(item) => item._id}
+          // initialScrollIndex={this.state.messages.length - 1} // Gör att man hamnar längst ner i konversationen och får scrolla uppåt, gissar på att det inte kommer funka när data hämtas från db?
         />
 
         <View style={chatStyles.inputBox}>
