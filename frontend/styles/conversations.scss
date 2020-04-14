@@ -1,0 +1,40 @@
+@import 'colors';
+
+.container {
+  flex: 1;
+  background-color: '#fafafa';
+  height: 10;
+}
+
+.contentContainer {
+  padding-top: 10;
+}
+
+.optionIconContainer {
+  padding-left: 7;
+  margin-right: 12;
+}
+.optionText {
+  font-size: 15;
+  //font-weight: "bold";
+  //align-self: 'flex-start';
+}
+.messageText {
+  font-size: 13;
+  margin-top: 3;
+  color: $footer; //nina ändra
+}
+.parentMode {
+  // align-self: 'flex-end';
+  flex: 1;
+  margin-top: -30;
+}
+.parentChild {
+  flex: 1;
+  height: 60;
+  color: $footer; //nina ändra
+}
+
+.profile {
+  margin-left: 10;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Text,
@@ -8,6 +9,7 @@ import {
   Button,
   KeyboardAvoidingView,
   FlatList,
+  Animated,
 } from 'react-native';
 
 import config from '../../backend/config';
@@ -92,9 +94,7 @@ export default class ChatView extends Component {
   render() {
     return (
       //Finns bättre sätt än <KeyBoardAvoidingView> för att få allt att anpassas då tangentbordet öppnas
-      <KeyboardAvoidingView style={appStyles.container} behavior="padding">
-        <Header title={this.state.userName} />
-
+      <Animated.View style={appStyles.container} enableOnAndroid="true">
         <FlatList
           ref={(el) => (this.list = el)}
           data={this.state.messages}
@@ -123,7 +123,7 @@ export default class ChatView extends Component {
             }}
           />
         </View>
-      </KeyboardAvoidingView>
+      </Animated.View>
     );
   }
 }
