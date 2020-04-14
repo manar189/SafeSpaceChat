@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Text,
@@ -8,6 +9,7 @@ import {
   Button,
   KeyboardAvoidingView,
   FlatList,
+  Animated,
 } from 'react-native';
 
 import config from '../../backend/config';
@@ -30,7 +32,7 @@ export default class ChatView extends Component {
     };
   }
 
-/*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backen/config TILL DIN LOCALA HEMMA!!!
+  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backen/config TILL DIN LOCALA HEMMA!!!
     Läget är följande:
     - När man skriver ett meddelande så skickas det via socket.io till backend som skickar tillbaka samma meddelande till
       en socket med mottagarens id, samt skapar meddelandet i databasen.
@@ -46,13 +48,13 @@ export default class ChatView extends Component {
     // TODO: loadMessages är trasig, eller sättet man behandlar datan på
     const loadedMessages = loadMessages(this.state.conversationId);
     console.log(`Loaded messages: ${loadedMessages}`);
-    this.setState({ });
+    this.setState({});
 
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
-    this.socket.on('message', message => {
+    this.socket.on('message', (message) => {
       const incomingMessage = {
         text: message.text,
         userId: message.userId,
@@ -76,28 +78,26 @@ export default class ChatView extends Component {
       conversationId: this.state.conversationId,
     };
 
-    this.socket.emit('message',  newMessage);
+    this.socket.emit('message', newMessage);
     this.renderNewMessage(newMessage);
     this.setState({ currMsg: '' });
     this.textInput.clear();
-  }
+  };
 
   renderNewMessage = (message) => {
     console.log(`New message: ${message.text}`);
-    if(message.conversationId == this.state.conversationId){
+    if (message.conversationId == this.state.conversationId) {
       // TODO: Gör så att meddelandet som skapats visas i chatten
     }
-  }
+  };
 
   render() {
     return (
       //Finns bättre sätt än <KeyBoardAvoidingView> för att få allt att anpassas då tangentbordet öppnas
-      <KeyboardAvoidingView style={appStyles.container} behavior="padding">
-        <Header title={this.state.userName} />
-
+      <Animated.View style={appStyles.container} enableOnAndroid="true">
         <FlatList
           ref={(el) => (this.list = el)}
-          data={this.state.messages}          
+          data={this.state.messages}
           renderItem={({ item }) => (
             <Item msg={item} currUser={this.state.currUser} />
           )}
@@ -123,7 +123,7 @@ export default class ChatView extends Component {
             }}
           />
         </View>
-      </KeyboardAvoidingView>
+      </Animated.View>
     );
   }
 }
