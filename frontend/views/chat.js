@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Text,
@@ -47,7 +46,7 @@ export default class ChatView extends Component {
   async componentDidMount() {
     const loadedMessages = await loadMessages(this.state.conversationId);
 
-    this.setState({ messages: loadedMessages });
+    this.setState({ messages: loadedMessages.reverse() });
 
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
@@ -86,14 +85,13 @@ export default class ChatView extends Component {
   renderNewMessage(message) {
     console.log(`New message: ${message.text}`);
     if (message.conversationId == this.state.conversationId) {
-      this.state.messages.push(message);
+      this.state.messages.reverse().push(message);
       this.render();
     }
   }
 
   render() {
     return (
-      //Finns bättre sätt än <KeyBoardAvoidingView> för att få allt att anpassas då tangentbordet öppnas
       <Animated.View style={appStyles.container} enableOnAndroid="true">
         <FlatList
           ref={(el) => (this.list = el)}
@@ -102,7 +100,7 @@ export default class ChatView extends Component {
             <Item msg={item} userId={this.state.userId} />
           )}
           keyExtractor={(item) => item._id}
-          // initialScrollIndex={this.state.messages.length - 1} // Gör att man hamnar längst ner i konversationen och får scrolla uppåt, gissar på att det inte kommer funka när data hämtas från db?
+          inverted
         />
 
         <View style={chatStyles.inputBox}>
