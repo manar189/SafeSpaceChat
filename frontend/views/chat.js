@@ -5,7 +5,6 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   TouchableOpacity,
   FlatList,
   Animated,
@@ -14,10 +13,8 @@ import { EvilIcons } from '@expo/vector-icons';
 
 import config from '../../backend/config';
 import loadMessages from '../connections/loadMessages';
-import Header from '../styles/components/header.js';
 import appStyles from '../styles/components.scss';
 import chatStyles from '../styles/chat.scss';
-import { useNavigation } from '@react-navigation/native';
 
 class ChatView extends Component {
   constructor(props) {

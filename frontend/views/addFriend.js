@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
 import { EvilIcons } from '@expo/vector-icons';
 
 import { Text, View } from 'react-native';
 import { Switch } from 'react-native-switch';
 
-import config from '../../backend/config';
-
 import addFriendStyles from '../styles/addFriend.scss';
 
 /*
-    I brist på andra ikoner satte jag dessa tillfälligt
+    I brist på andra ikoner satte jag dessa tillfälligt.
 */
 
 export default class AddFriend extends Component {
@@ -51,7 +48,9 @@ export default class AddFriend extends Component {
         <View style={addFriendStyles.content}>
           <Text style={addFriendStyles.instructions}>{instructions}</Text>
           <View style={addFriendStyles.camera}>
-            {/* Här ska kamera/QR-kod läggas in */}
+            {/**********************************
+             * Här ska kamera/QR-kod läggas in *
+             * *********************************/}
           </View>
           <View style={addFriendStyles.switch}>
             <EvilIcons name="image" size={50} color={colorCodeIcon} />
