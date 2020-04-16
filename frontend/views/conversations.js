@@ -7,9 +7,17 @@ expo install react-native-gesture-handler react-native-reanimated react-native-s
 
 import React, { Component } from 'react';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Text, FlatList, TextInput } from 'react-native';
-import { List } from 'react-native-elements';
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import conversationStyles from '../styles/conversations';
 
@@ -19,7 +27,7 @@ import conversationStyles from '../styles/conversations';
 
     - Behövs skapas en koppling i /connections/loadConversations som hämtar alla konverationer genom /handlers/loadConversations.
     - För att hämta konversationerna krävs en funktion som retunerar alla konversationer i /handlers/loadConversations.
-    - Konversationerna ska hämtas från /connections/loadConversations och sparas i conversations (likt som i chat.js)
+    - Konversationerna ska hämtas från /connections/loadConversations och sparas i conversations (likt chat.js)
     - I navigation.navigate('ChatView') ska man kunna lägga till fler argument, jag tror att vi kan använda det för att plocka ut rätt konversation. 
     - Vid för många konversationer i listan blir det fett skumt 
     - Sökrutan saknar funktion
@@ -30,6 +38,22 @@ export default function ConversationsView(props) {
 
   const conversations = TEMPDATA;
 
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity style={conversationStyles.profileButton}>
+        <EvilIcons name="user" size={40} color="white" />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      <TouchableOpacity
+        style={conversationStyles.addFriendButton}
+        onPress={() => navigation.navigate('AddFriend')}
+      >
+        <EvilIcons name="plus" size={40} color="white" />
+      </TouchableOpacity>
+    ),
+  });
+
   return (
     <FlatList
       style={conversationStyles.container}
@@ -38,7 +62,13 @@ export default function ConversationsView(props) {
       renderItem={({ item }) => (
         <OptionButton
           item={item}
-          func={() => navigation.navigate('ChatView')}
+          func={() =>
+            navigation.navigate('ChatView', {
+              userId: item.userId,
+              conversationId: item.conversationId,
+              userName: item.label,
+            })
+          }
         />
       )}
       ItemSeparatorComponent={() => {
@@ -48,7 +78,7 @@ export default function ConversationsView(props) {
         <View style={conversationStyles.searchConvBox}>
           <TextInput
             style={conversationStyles.searchConv}
-            placeholder={'    Sök...'}
+            placeholder={'Sök...'}
           />
         </View>
       }
@@ -81,22 +111,67 @@ function OptionButton({ item, func }) {
 
 //Tillfällig data för att kunna skapa scss
 const TEMPDATA = [
-  { icon: 'circle', label: 'Kalle Kula', msg: 'Tja vgd' },
+  {
+    icon: 'circle',
+    label: 'Kalle Kula',
+    msg: 'Tja vgd',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
   {
     icon: 'circle',
     label: 'Lisa Avlång',
     msg: 'hahahah! Men vad säger du om...',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
   },
-  { icon: 'circle', label: 'Anna Asbra', msg: 'ok' },
-  { icon: 'circle', label: 'Fidde Framåt', msg: 'Starta en konversation...' },
-  { icon: 'circle', label: 'Kalle Kula', msg: 'Tja vgd' },
+  {
+    icon: 'circle',
+    label: 'Anna Asbra',
+    msg: 'ok',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
+  {
+    icon: 'circle',
+    label: 'Fidde Framåt',
+    msg: 'Starta en konversation...',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
+  {
+    icon: 'circle',
+    label: 'Kalle Kula',
+    msg: 'Tja vgd',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
   {
     icon: 'circle',
     label: 'Lisa Avlång',
     msg: 'hahahah! Men vad säger du om...',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
   },
-  { icon: 'circle', label: 'Anna Asbra', msg: 'ok' },
-  { icon: 'circle', label: 'Fidde Framåt', msg: 'Starta en konversation...' },
-  { icon: 'circle', label: 'Kalle Kula', msg: 'Tja vgd' },
-  { icon: 'circle', label: 'Kalle Kula', msg: 'Tja vgd' },
+  {
+    icon: 'circle',
+    label: 'Anna Asbra',
+    msg: 'ok',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
+  {
+    icon: 'circle',
+    label: 'Fidde Framåt',
+    msg: 'Starta en konversation...',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
+  {
+    icon: 'circle',
+    label: 'Kalle Kula',
+    msg: 'Tja vgd',
+    userId: '5e843ddbbd8a99081cd3f613',
+    conversationId: '5e68c508c18e2a00ee6bf0f8',
+  },
 ];

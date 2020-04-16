@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { EvilIcons } from '@expo/vector-icons';
+
 import ConversationView from '../views/conversations';
 import ChatView from '../views/chat';
-import { TouchableOpacity } from 'react-native';
+import AddFriend from '../views/addFriend';
 
 import conversationStyles from '../styles/conversations';
 
@@ -19,9 +19,11 @@ function MainStackNavigator() {
           gestureEnabled: true,
           headerStyle: {
             backgroundColor: '#276a76',
+            height: 100,
           },
           headerTitleStyle: {
             fontWeight: 'bold',
+            fontSize: 24,
           },
           headerTintColor: 'white',
         }}
@@ -31,17 +33,13 @@ function MainStackNavigator() {
           component={ConversationView}
           options={{
             title: 'SafeSpace',
-            headerLeft: () => (
-              <TouchableOpacity style={conversationStyles.profile}>
-                <EvilIcons name="user" fontSize="40" color="white" />
-              </TouchableOpacity>
-            ),
           }}
         />
+        <Stack.Screen name="ChatView" component={ChatView} />
         <Stack.Screen
-          name="ChatView"
-          component={ChatView}
-          options={{ title: 'Kalle Kula' }}
+          name="AddFriend"
+          component={AddFriend}
+          options={{ title: 'Lägg till kontakt' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

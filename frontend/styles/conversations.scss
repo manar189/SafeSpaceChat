@@ -47,8 +47,12 @@ $searchBorder: #707070;
   color: $footer; //nina ändra
 }
 
-.profile {
+.profileButton {
   margin-left: 10;
+}
+
+.addFriendButton {
+  margin-right: 10;
 }
 
 .separator {
@@ -70,4 +74,6 @@ $searchBorder: #707070;
   margin-bottom: 3;
   margin-left: 6;
   margin-right: 6;
+
+  padding-left: 10;
 }

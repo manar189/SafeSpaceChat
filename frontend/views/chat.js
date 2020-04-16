@@ -6,28 +6,33 @@ import {
   View,
   TextInput,
   Button,
-  KeyboardAvoidingView,
+  TouchableOpacity,
   FlatList,
   Animated,
 } from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 
 import config from '../../backend/config';
 import loadMessages from '../connections/loadMessages';
 import Header from '../styles/components/header.js';
 import appStyles from '../styles/components.scss';
 import chatStyles from '../styles/chat.scss';
+import { useNavigation } from '@react-navigation/native';
 
-export default class ChatView extends Component {
+class ChatView extends Component {
   constructor(props) {
     super(props);
+    var routeParams = this.props.navigation.route.params;
 
     this.state = {
-      userName: 'Kalle Kula',
-      userId: '5e843ddbbd8a99081cd3f613',
-      conversationId: '5e68c508c18e2a00ee6bf0f8',
+      userName: routeParams.userName,
+      userId: routeParams.userId,
+      conversationId: routeParams.conversationId,
       currMsg: '',
       messages: [],
       loading: true,
+      navigation: this.props.navigation.navigation,
+      height: 0,
     };
   }
 
@@ -38,9 +43,9 @@ export default class ChatView extends Component {
     - Funktionen "newMessage" ska göra så att nya meddelanden läggs till i den aktiva chatten om det har rätt conversationId.
       Alltså ska den funktionen aktiveras både när man själv skriver ett meddelande och när man tar emot ett meddelande i den
       aktiva chatten. I nuläget har jag gjort så att meddelanden skickas till mig själv vilket gör att newMessage kallas på två gånger.
-    - Funktionen "loadMessages" är jag osäker på. Man får tillbaka ett "promise" vilket man får när man har async funktioner.
-      Jag vet inte vad felet med funktionen är eller om jag bara måste hantera datan annorlunda men man får tillbaka bra info
-      om man kallar på servern från Insomnia.
+
+
+      -Ibland hoppar meddelandena när man skickat nytt, oklart varför. 
 */
 
   async componentDidMount() {
@@ -84,13 +89,21 @@ export default class ChatView extends Component {
 
   renderNewMessage(message) {
     console.log(`New message: ${message.text}`);
-    if (message.conversationId == this.state.conversationId) {
+    if (
+      message.conversationId == this.state.conversationId &&
+      message.text != ''
+    ) {
       this.state.messages.reverse().push(message);
+      this.state.height = 0;
       this.render();
     }
   }
 
   render() {
+    this.state.navigation.setOptions({
+      title: this.state.userName,
+    });
+
     return (
       <Animated.View style={appStyles.container} enableOnAndroid="true">
         <FlatList
@@ -108,18 +121,33 @@ export default class ChatView extends Component {
             ref={(input) => {
               this.textInput = input;
             }}
-            style={chatStyles.textInput}
+            style={[
+              chatStyles.textInput,
+              { height: Math.max(35, this.state.height) },
+            ]}
             onChangeText={(currMsg) => this.setState({ currMsg })}
-          />
+            onSubmitEditing={() => this.submitChatMessage(this.state.currMsg)}
+            placeholder={'Skriv ett meddelande...'}
+            multiline={true}
+            blurOnSubmit={true}
+            scrollEnabled={true}
+            onContentSizeChange={(event) => {
+              var contentHeight = event.nativeEvent.contentSize.height;
+              var MAX_HEIGHT = 100;
 
-          <Button
-            color="#133b43"
-            title="Skicka"
-            style={chatStyles.sendButton}
-            onPress={() => {
-              this.submitChatMessage(this.state.currMsg);
+              if (contentHeight <= MAX_HEIGHT) {
+                this.setState({ height: contentHeight });
+              } else {
+                this.setState({ height: MAX_HEIGHT });
+              }
             }}
           />
+
+          <TouchableOpacity
+            onPress={() => this.submitChatMessage(this.state.currMsg)}
+          >
+            <EvilIcons name="plus" size={40} color="white" />
+          </TouchableOpacity>
         </View>
       </Animated.View>
     );
@@ -140,4 +168,8 @@ function Item({ msg, userId }) {
       <Text>{msg.text}</Text>
     </View>
   );
+}
+
+export default function (navigation) {
+  return <ChatView navigation={navigation} />;
 }
