@@ -5,7 +5,7 @@ module.exports = async function createMessage(message) {
     try{
         Conversation.findById(message.conversationId)
         .then((conversation)=>{
-            var textMessage = new Message({
+            const textMessage = new Message({
                 text : message.text,
                 userId : message.userId,
                 conversationId : message.conversationId,

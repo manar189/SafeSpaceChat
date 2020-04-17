@@ -1,18 +1,18 @@
 import callServer from './callServer';
 
-export default async (conversationId) => {
+export default async (userId) => {
   try {
-    var messages;
+    var conversations;
 
-    await (await callServer(`/messages/${conversationId}`))
+    await (await callServer(`/friends/${userId}`))
       .json()
       .then((res) => {
-        messages = res;
+        conversations = res;
         ('');
       })
       .catch((err) => console.log('Error fetching data', err));
 
-    return messages;
+    return conversations;
   } catch (error) {
     return console.error(error);
   }
