@@ -9,6 +9,9 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const loadMessages = require('./handlers/loadMessages');
 const createMessage = require('./handlers/createMessage');
+const loadFriends = require('./handlers/loadFriends');
+const getConversationId = require('./handlers/getConversationId');
+const createConversation = require('./handlers/createConversation');
 
 app.use(cors());
 app.use(express.json());
@@ -45,7 +48,14 @@ io.on('connection', (socket) => {
 });
 
 // Routing to load all messages from a conversation
-app.get('/conversations/:id', (req, res) => {loadMessages(req.params.id, res)});
+app.get('/messages/:conversationId', (req, res) => {loadMessages(req.params.conversationId, res)});
+
+// Routing to load all conversations from a user
+app.get('/friends/:userId', (req, res) => {loadFriends(req.params.userId, res)});
+
+app.get('/conversations', (req, res) => {getConversationId(req.body, res)});
+
+app.post('/conversations', (req, res) => {createConversation(req.body, res)});
 
 server.listen(config.server.port, ()=>{
     console.log(`Server is running on port: ${config.server.port}`);

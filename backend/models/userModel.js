@@ -5,17 +5,16 @@ const userSchema = new Schema({
   UserId: String,
   fullName: {
     type: String,
-    //required: true,
-    //unique: false,
+    required: true,
   },
   email: {
     type: String,
-    //unique: true,
-    //required: true,
+    unique: true,
+    required: true,
   },
   password: {
     type: String,
-    //required: true,
+    required: true,
   },
   friends: [{
     type: mongoose.Schema.Types.ObjectId,

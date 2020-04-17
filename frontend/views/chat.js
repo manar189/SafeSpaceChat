@@ -30,27 +30,16 @@ export default class ChatView extends Component {
     };
   }
 
-  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backend/config TILL DIN LOKALA HEMMA!!!
-    Läget är följande:
-    - När man skriver ett meddelande så skickas det via socket.io till backend som skickar tillbaka samma meddelande till
-      en socket med mottagarens id, samt skapar meddelandet i databasen.
-    - Funktionen "newMessage" ska göra så att nya meddelanden läggs till i den aktiva chatten om det har rätt conversationId.
-      Alltså ska den funktionen aktiveras både när man själv skriver ett meddelande och när man tar emot ett meddelande i den
-      aktiva chatten. I nuläget har jag gjort så att meddelanden skickas till mig själv vilket gör att newMessage kallas på två gånger.
-    - Funktionen "loadMessages" är jag osäker på. Man får tillbaka ett "promise" vilket man får när man har async funktioner.
-      Jag vet inte vad felet med funktionen är eller om jag bara måste hantera datan annorlunda men man får tillbaka bra info
-      om man kallar på servern från Insomnia.
-*/
-
   async componentDidMount() {
-    const loadedMessages = await loadMessages(this.state.conversationId);
-
-    this.setState({ messages: loadedMessages });
-
+    
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
+
+    const loadedMessages = await loadMessages(this.state.conversationId);
+    this.setState({ messages: loadedMessages });
+
     this.socket.on('message', (message) => {
       const incomingMessage = {
         text: message.text,
@@ -71,7 +60,7 @@ export default class ChatView extends Component {
     const newMessage = {
       text: this.state.currMsg,
       userId: this.state.userId,
-      receiverId: '5e843ddbbd8a99081cd3f613',
+      receiverId: '',// 5e843ddbbd8a99081cd3f613',
       conversationId: this.state.conversationId,
     };
 
