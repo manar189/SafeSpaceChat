@@ -14,7 +14,19 @@
   border: solid 1px $footer;
 }
 
-.buttonText {
-  color: $whiteTextColor;
+.text {
   font-size: 16;
+  font-weight: bold;
+  margin-top: 3;
+  color: white;
+  //font-family: Arial Helvetica sans-serif;
+}
+
+.startButton {
+  padding-bottom: 18;
+  padding-top: 18;
+
+  width: 80%;
+  display: flex;
+  align-items: center;
 }

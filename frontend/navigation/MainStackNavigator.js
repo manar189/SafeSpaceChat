@@ -7,6 +7,9 @@ import ChatView from '../views/chat';
 import AddFriend from '../views/addFriend';
 import SignIn from '../views/signIn';
 import Register from '../views/register';
+import Start from '../views/start';
+import Help from '../views/help';
+import Scan from '../views/signInScan';
 
 const Stack = createStackNavigator();
 var signedIn = false;
@@ -17,7 +20,7 @@ function MainStackNavigator() {
   if (signedIn) {
     startScreen = 'Conversation';
   } else {
-    startScreen = 'Register';
+    startScreen = 'Start';
   }
 
   return (
@@ -72,6 +75,51 @@ function MainStackNavigator() {
         <Stack.Screen
           name="Register"
           component={Register}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#133b43',
+              borderBottomWidth: 0,
+              borderBottomColor: 'transparent',
+              shadowColor: 'transparent',
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Start"
+          component={Start}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#133b43',
+              borderBottomWidth: 0,
+              borderBottomColor: 'transparent',
+              shadowColor: 'transparent',
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Help"
+          component={Help}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#133b43',
+              borderBottomWidth: 0,
+              borderBottomColor: 'transparent',
+              shadowColor: 'transparent',
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Scan"
+          component={Scan}
           options={{
             title: '',
             headerStyle: {
