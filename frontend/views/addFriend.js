@@ -86,15 +86,11 @@ export default class AddFriend extends Component {
         <View style={addFriendStyles.content}>
           <Text style={addFriendStyles.instructions}>{instructions}</Text>
           <View style={addFriendStyles.camera}>
-            {/**********************************
-             * Här ska kamera/QR-kod läggas in *
-             * *********************************/}
              {this.state.camera && 
              <BarCodeScanner 
              onBarCodeScanned = {scanned ? undefined : this.handleBarCodeScanned}
              style = {StyleSheet.absoluteFillObject}
-      />}
-             
+             />}  
           </View>
           <View style={addFriendStyles.switch}>
             <EvilIcons name="image" size={50} color={colorCodeIcon} />
