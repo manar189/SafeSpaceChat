@@ -1,0 +1,36 @@
+@import 'colors';
+
+.container {
+  background-color: $bgColorStart;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+}
+.logo {
+  height: 50;
+  width: 50;
+  background-color: lightseagreen;
+}
+
+.textInput {
+  height: 45;
+  width: 90%;
+  background-color: $textInputColor;
+
+  padding-left: 10;
+}
+
+.textLabel {
+  color: $whiteTextColor;
+  align-self: flex-start;
+  margin-left: 20;
+  margin-top: 30;
+  padding-bottom: 5;
+}
+
+.errorMsg {
+  color: red;
+  margin-top: 40;
+}

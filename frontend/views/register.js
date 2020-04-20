@@ -14,36 +14,38 @@ import buttonStyle from '../styles/button.scss';
 
 var authenticated = false;
 
-export default class SignIn extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      userAuth: false,
+      userName: '',
+
       error: '',
-      user: [],
     };
   }
 
-  authUser() {
-    // Här ska epost och lösenord kollas mot användare i databasen
-    if (this.state.email != '' && this.state.password != '') {
+  authInput() {
+    if (
+      this.state.email != '' &&
+      this.state.password != '' &&
+      this.state.userName != ''
+    ) {
       this.setState({ error: '' });
       authenticated = true;
     } else {
       this.setState({
-        error: 'Fyll i e-post och/eller lösenord',
+        error: 'Var god fyll i alla fält',
       });
       authenticated = false;
     }
   }
 
-  signIn() {
-    this.authUser();
+  registerUser() {
+    this.authInput();
 
     if (authenticated) {
-      console.log('Signing in...');
       this.props.navigation.navigate('Conversation');
 
       this.setState({
@@ -62,8 +64,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
-        {' '}
-        {/* Keyboard avoiding view funkar ej */}
+        {/* Keyvoard avoiding view funkar ej */}
         <EvilIcons name="sc-odnoklassniki" size={90} color="white" />
         {/*Här ska det vara en fin logga  */}
         <Text style={styles.errorMsg}>{this.state.error}</Text>
@@ -89,11 +90,21 @@ export default class SignIn extends Component {
           placeholder={'**********'}
           secureTextEntry={true}
         />
+        <Text style={styles.textLabel}>Namn</Text>
+        <TextInput
+          ref={(input) => {
+            this.nameInput = input;
+          }}
+          style={[styles.textInput]}
+          onChangeText={(password) => this.setState({ password })}
+          placeholder={'Kalle Kula'}
+          secureTextEntry={true}
+        />
         <TouchableOpacity
           style={buttonStyle.button}
-          onPress={() => this.signIn()}
+          onPress={() => this.registerUser()}
         >
-          <Text style={buttonStyle.buttonText}>Logga in</Text>
+          <Text style={buttonStyle.buttonText}>Registrera</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     );

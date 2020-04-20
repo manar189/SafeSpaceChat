@@ -35,7 +35,6 @@ import conversationStyles from '../styles/conversations';
 class ConversationsView extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       navigation: this.props.navigation.navigation,

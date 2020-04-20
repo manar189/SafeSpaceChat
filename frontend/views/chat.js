@@ -13,7 +13,6 @@ import { EvilIcons } from '@expo/vector-icons';
 
 import config from '../../backend/config';
 import loadMessages from '../connections/loadMessages';
-import appStyles from '../styles/components.scss';
 import chatStyles from '../styles/chat.scss';
 
 class ChatView extends Component {
@@ -102,7 +101,7 @@ class ChatView extends Component {
     });
 
     return (
-      <Animated.View style={appStyles.container} enableOnAndroid="true">
+      <Animated.View style={chatStyles.container} enableOnAndroid="true">
         <FlatList
           ref={(el) => (this.list = el)}
           data={this.state.messages}

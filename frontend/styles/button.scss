@@ -1,0 +1,20 @@
+@import 'colors';
+
+.button {
+  background-color: $buttonColor;
+  margin-top: 30;
+
+  border-radius: 10px;
+
+  padding-left: 16;
+  padding-right: 16;
+  padding-bottom: 12;
+  padding-top: 12;
+
+  border: solid 1px $footer;
+}
+
+.buttonText {
+  color: $whiteTextColor;
+  font-size: 16;
+}

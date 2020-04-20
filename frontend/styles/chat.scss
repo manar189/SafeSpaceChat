@@ -3,6 +3,17 @@
 $pad: 5;
 $padInput: 20;
 
+.container {
+  //TODO: Font-family
+
+  flex: 1;
+  background-color: $bgColor;
+  text-align: center;
+  display: flex;
+
+  flex-direction: column;
+}
+
 .msg {
   padding-top: $pad;
   padding-bottom: $pad;
