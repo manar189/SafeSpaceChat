@@ -1,46 +1,54 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Text,
   View,
   TextInput,
-  Button,
-  KeyboardAvoidingView,
+  TouchableOpacity,
   FlatList,
   Animated,
 } from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 
 import config from '../../backend/config';
 import loadMessages from '../connections/loadMessages';
-import Header from '../styles/components/header.js';
 import appStyles from '../styles/components.scss';
 import chatStyles from '../styles/chat.scss';
 
-export default class ChatView extends Component {
+class ChatView extends Component {
   constructor(props) {
     super(props);
+    var routeParams = this.props.navigation.route.params;
 
     this.state = {
-      userName: 'Kalle Kula',
-      userId: '5e843ddbbd8a99081cd3f613',
-      conversationId: '5e68c508c18e2a00ee6bf0f8',
+      userName: routeParams.userName,
+      userId: routeParams.userId,
+      conversationId: routeParams.conversationId,
       currMsg: '',
       messages: [],
       loading: true,
+      navigation: this.props.navigation.navigation,
+      height: 0,
     };
   }
 
+  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA host: I ./backend/config TILL DIN LOKALA HEMMA!!!
+
+      -Ibland hoppar meddelandena när man skickat nytt, oklart varför. 
+*/
+
   async componentDidMount() {
-    
+    const loadedMessages = await loadMessages(this.state.conversationId);
+
+    this.setState({ messages: loadedMessages.reverse() });
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
 
-    const loadedMessages = await loadMessages(this.state.conversationId);
-    this.setState({ messages: loadedMessages });
+    //const loadedMessages = await loadMessages(this.state.conversationId);
+    //this.setState({ messages: loadedMessages });
 
     this.socket.on('message', (message) => {
       const incomingMessage = {
@@ -74,15 +82,22 @@ export default class ChatView extends Component {
 
   renderNewMessage(message) {
     console.log(`New message: ${message.text}`);
-    if (message.conversationId == this.state.conversationId) {
-      this.state.messages.push(message);
+    if (
+      message.conversationId == this.state.conversationId &&
+      message.text != ''
+    ) {
+      this.state.messages.reverse().push(message);
+      this.state.height = 0;
       this.render();
     }
   }
 
   render() {
+    this.state.navigation.setOptions({
+      title: this.state.userName,
+    });
+
     return (
-      //Finns bättre sätt än <KeyBoardAvoidingView> för att få allt att anpassas då tangentbordet öppnas
       <Animated.View style={appStyles.container} enableOnAndroid="true">
         <FlatList
           ref={(el) => (this.list = el)}
@@ -91,7 +106,7 @@ export default class ChatView extends Component {
             <Item msg={item} userId={this.state.userId} />
           )}
           keyExtractor={(item) => item._id}
-          // initialScrollIndex={this.state.messages.length - 1} // Gör att man hamnar längst ner i konversationen och får scrolla uppåt, gissar på att det inte kommer funka när data hämtas från db?
+          inverted
         />
 
         <View style={chatStyles.inputBox}>
@@ -99,18 +114,33 @@ export default class ChatView extends Component {
             ref={(input) => {
               this.textInput = input;
             }}
-            style={chatStyles.textInput}
+            style={[
+              chatStyles.textInput,
+              { height: Math.max(35, this.state.height) },
+            ]}
             onChangeText={(currMsg) => this.setState({ currMsg })}
-          />
+            onSubmitEditing={() => this.submitChatMessage(this.state.currMsg)}
+            placeholder={'Skriv ett meddelande...'}
+            multiline={true}
+            blurOnSubmit={true}
+            scrollEnabled={true}
+            onContentSizeChange={(event) => {
+              var contentHeight = event.nativeEvent.contentSize.height;
+              var MAX_HEIGHT = 100;
 
-          <Button
-            color="#133b43"
-            title="Skicka"
-            style={chatStyles.sendButton}
-            onPress={() => {
-              this.submitChatMessage(this.state.currMsg);
+              if (contentHeight <= MAX_HEIGHT) {
+                this.setState({ height: contentHeight });
+              } else {
+                this.setState({ height: MAX_HEIGHT });
+              }
             }}
           />
+
+          <TouchableOpacity
+            onPress={() => this.submitChatMessage(this.state.currMsg)}
+          >
+            <EvilIcons name="plus" size={40} color="white" />
+          </TouchableOpacity>
         </View>
       </Animated.View>
     );
@@ -131,4 +161,8 @@ function Item({ msg, userId }) {
       <Text>{msg.text}</Text>
     </View>
   );
+}
+
+export default function (navigation) {
+  return <ChatView navigation={navigation} />;
 }
