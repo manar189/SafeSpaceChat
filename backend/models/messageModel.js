@@ -10,11 +10,11 @@ const messageSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  conversation: {
+  conversationId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },

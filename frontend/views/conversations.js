@@ -18,6 +18,8 @@ import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
 import conversationStyles from '../styles/conversations';
+import loadFriends from '../connections/loadFriends';
+import getConversationId from '../connections/getConversationsId';
 
 /*
     Detta ska kopplas till backend och därmed ska alla konversationer hämtas från DB. Om det inte redan finns så bör vi ha ett par konversationer att kunna testa med nu.
@@ -35,12 +37,30 @@ import conversationStyles from '../styles/conversations';
 class ConversationsView extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    //console.log(props);
 
     this.state = {
+      userId: "5e843ddbbd8a99081cd3f613",
       navigation: this.props.navigation.navigation,
-      conversations: TEMPDATA,
+      conversations: [],
     };
+  }
+
+  async componentDidMount() {
+    const loadedFriends = await loadFriends(this.state.userId);
+    loadedFriends.forEach(friend => {
+      
+      const item = {
+        label: friend.username,
+        userId: friend._id,
+        conversationId: getConversationId({
+          userId: this.state.userId,
+          friendId: friend._id,
+        }),
+      }
+      this.state.conversations.push(item);
+      
+    })
   }
 
   setHeaderOptions() {

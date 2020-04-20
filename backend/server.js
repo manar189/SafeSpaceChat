@@ -53,9 +53,9 @@ app.get('/messages/:conversationId', (req, res) => {loadMessages(req.params.conv
 // Routing to load all conversations from a user
 app.get('/friends/:userId', (req, res) => {loadFriends(req.params.userId, res)});
 
-app.get('/conversations', (req, res) => {getConversationId(req.body, res)});
+app.post('/conversations', (req, res) => {getConversationId(req.body, res)});
 
-app.post('/conversations', (req, res) => {createConversation(req.body, res)});
+app.post('/conversations/add', (req, res) => {createConversation(req.body, res)});
 
 server.listen(config.server.port, ()=>{
     console.log(`Server is running on port: ${config.server.port}`);

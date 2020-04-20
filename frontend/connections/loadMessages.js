@@ -1,10 +1,12 @@
-import callServer from './callServer';
+import config from '../../backend/config';
+
+const serverURL = `http://${config.server.host}:${config.server.port}`;
 
 export default async (conversationId) => {
   try {
     var messages;
 
-    await (await callServer(`/messages/${conversationId}`))
+    await (await fetch(serverURL + `/messages/${conversationId}`))
       .json()
       .then((res) => {
         messages = res;

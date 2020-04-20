@@ -37,8 +37,9 @@ class ChatView extends Component {
 
       -Ibland hoppar meddelandena när man skickat nytt, oklart varför. 
 */
-
+  //async componentDidUpdate() {
   async componentDidMount() {
+    
     const loadedMessages = await loadMessages(this.state.conversationId);
 
     this.setState({ messages: loadedMessages.reverse() });
