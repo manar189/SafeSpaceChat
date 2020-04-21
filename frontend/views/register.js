@@ -64,7 +64,8 @@ export default class Register extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
-        {/* Keyvoard avoiding view funkar ej */}
+        {/* Keyboard avoiding view funkar ej, måste finnas ett sätt för alla komponenter att flytta sig när tangetbordet dyker upp!*/}
+
         <EvilIcons name="sc-odnoklassniki" size={90} color="white" />
         {/*Här ska det vara en fin logga  */}
         <Text style={styles.errorMsg}>{this.state.error}</Text>
@@ -96,9 +97,8 @@ export default class Register extends Component {
             this.nameInput = input;
           }}
           style={[styles.textInput]}
-          onChangeText={(password) => this.setState({ password })}
+          onChangeText={(userName) => this.setState({ userName })}
           placeholder={'Kalle Kula'}
-          secureTextEntry={true}
         />
         <TouchableOpacity
           style={buttonStyle.button}

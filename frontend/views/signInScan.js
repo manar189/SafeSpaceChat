@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, TouchableOpacity, Text, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
-import startStyles from '../styles/start';
+import styles from '../styles/signIn';
 import buttonStyle from '../styles/button';
 
 class SignInScan extends Component {
@@ -17,8 +17,18 @@ class SignInScan extends Component {
 
   render() {
     return (
-      <View style={startStyles.container}>
-        <Text>Här ska man kunna skanna</Text>
+      <View style={styles.container}>
+        <TouchableOpacity //OBS bör vara typ view sen
+          style={styles.camera}
+          onPress={() => this.state.navigation.navigate('ScanRegister')}
+        >
+          {/***************************
+           * Här ska kamera läggas in *
+           * *************************/}
+        </TouchableOpacity>
+        <Text style={styles.instructions}>
+          {'Skanna QR-kod för att starta konto'}
+        </Text>
       </View>
     );
   }

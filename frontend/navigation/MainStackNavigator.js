@@ -10,6 +10,7 @@ import Register from '../views/register';
 import Start from '../views/start';
 import Help from '../views/help';
 import Scan from '../views/signInScan';
+import ScanRegister from '../views/scanRegister';
 
 const Stack = createStackNavigator();
 var signedIn = false;
@@ -120,6 +121,20 @@ function MainStackNavigator() {
         <Stack.Screen
           name="Scan"
           component={Scan}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#133b43',
+              borderBottomWidth: 0,
+              borderBottomColor: 'transparent',
+              shadowColor: 'transparent',
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="ScanRegister"
+          component={ScanRegister}
           options={{
             title: '',
             headerStyle: {
