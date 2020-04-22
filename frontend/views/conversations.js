@@ -40,7 +40,7 @@ class ConversationsView extends Component {
     //console.log(props);
 
     this.state = {
-      userId: "5e843ddbbd8a99081cd3f613",
+      userId: '5e843ddbbd8a99081cd3f613',
       navigation: this.props.navigation.navigation,
       conversations: [],
     };
@@ -48,19 +48,34 @@ class ConversationsView extends Component {
 
   async componentDidMount() {
     const loadedFriends = await loadFriends(this.state.userId);
-    loadedFriends.forEach(friend => {
-      
+    /***************************
+     * Här är problemet!
+     *
+     * loadedConvId får inte conversationId från /handlers/getConversationsId
+     * I /handlers/getConversationId hittas id:t men i /connections/getConversationsId
+     * stannar den vid fetch(), den går inte in i .then()
+     * det skulle kunna vara något med att det är en async funktion, men jag vet inte säkert
+     * det är som den pausas där för det blir inget error
+     ****************************/
+
+    loadedFriends.forEach((friend) => {
+      const loadedConvId = getConversationId({
+        userId: this.state.userId,
+        friendId: friend._id,
+      });
+
+      // Detta ger mycket konstigt resultat, troligtvis har inte getConversationId() laddat klart innan detta skrivs ut
+      // Försökte sätta await på getConversationId() men det hjälpte inte
+      console.log('Loaded conversation id: ' + JSON.stringify(loadedConvId));
+
       const item = {
         label: friend.username,
         userId: friend._id,
-        conversationId: getConversationId({
-          userId: this.state.userId,
-          friendId: friend._id,
-        }),
-      }
+        conversationId: loadedConvId,
+      };
+
       this.state.conversations.push(item);
-      
-    })
+    });
   }
 
   setHeaderOptions() {
@@ -92,13 +107,14 @@ class ConversationsView extends Component {
         renderItem={({ item }) => (
           <OptionButton
             item={item}
-            func={() =>
+            func={() => {
               this.state.navigation.navigate('ChatView', {
                 userId: item.userId,
                 conversationId: item.conversationId,
                 userName: item.label,
-              })
-            }
+              });
+              console.log(item.conversationId);
+            }}
           />
         )}
         ItemSeparatorComponent={() => {

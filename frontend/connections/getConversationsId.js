@@ -6,16 +6,28 @@ export default async (req) => {
   try {
     var conversationId;
 
-    await (await fetch(serverURL + `/conversations`, req))
-      .json()
+    console.log('req: ' + req.userId);
+
+    await fetch(serverURL + `/conversations`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req),
+    })
       .then((res) => {
+        /************************
+         * Här går den inte in  *
+         ************************/
         conversationId = res;
-        ('');
+        console.log('Result from fetch: ' + JSON.stringify(res));
       })
-      .catch((err) => console.log('Error fetching data', err));
+      .catch((err) => console.log('Error fetching conversations id', err));
+    console.log('Fetching conversations id: ' + JSON.stringify(conversationId));
 
     return conversationId;
   } catch (error) {
-    return console.error(error);
+    return console.log('catched error when fetching conversations: ' + error);
   }
 };

@@ -12,7 +12,7 @@ export default async (userId) => {
         conversations = res;
         ('');
       })
-      .catch((err) => console.log('Error fetching data', err));
+      .catch((err) => console.log('Error fetching data in loadFriend', err));
 
     return conversations;
   } catch (error) {

@@ -45,5 +45,4 @@ function MainStackNavigator() {
     </NavigationContainer>
   );
 }
-
 export default MainStackNavigator;

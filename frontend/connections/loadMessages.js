@@ -12,7 +12,7 @@ export default async (conversationId) => {
         messages = res;
         ('');
       })
-      .catch((err) => console.log('Error fetching data', err));
+      .catch((err) => console.log('Error fetching messages', err));
 
     return messages;
   } catch (error) {
