@@ -5,7 +5,7 @@ npm install @react-navigation/native
 npm install @react-navigation/stack
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view */
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   View,
@@ -32,57 +32,68 @@ import conversationStyles from '../styles/conversations';
     - Sökrutan saknar funktion
 */
 
-export default function ConversationsView(props) {
-  const { navigation } = props;
+class ConversationsView extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
 
-  const conversations = TEMPDATA;
+    this.state = {
+      navigation: this.props.navigation.navigation,
+      conversations: TEMPDATA,
+    };
+  }
 
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity style={conversationStyles.profileButton}>
-        <EvilIcons name="user" size={40} color="white" />
-      </TouchableOpacity>
-    ),
-    headerRight: () => (
-      <TouchableOpacity
-        style={conversationStyles.addFriendButton}
-        onPress={() => navigation.navigate('AddFriend')}
-      >
-        <EvilIcons name="plus" size={40} color="white" />
-      </TouchableOpacity>
-    ),
-  });
+  setHeaderOptions() {
+    this.state.navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity style={conversationStyles.profileButton}>
+          <EvilIcons name="user" size={40} color="white" />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => navigation.toggle()} style={{flexDirection:"row", paddingLeft: 10}}>
+          <EvilIcons name="plus" size={40} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }
 
-  return (
-    <FlatList
-      style={conversationStyles.container}
-      contentContainerStyle={conversationStyles.contentContainer}
-      data={conversations}
-      renderItem={({ item }) => (
-        <OptionButton
-          item={item}
-          func={() =>
-            navigation.navigate('ChatView', {
-              userId: item.userId,
-              conversationId: item.conversationId,
-              userName: item.label,
-            })
-          }
-        />
-      )}
-      ItemSeparatorComponent={() => {
-        return <View style={conversationStyles.separator} />;
-      }}
-      ListHeaderComponent={
-        <View style={conversationStyles.searchConvBox}>
-          <TextInput
-            style={conversationStyles.searchConv}
-            placeholder={'Sök...'}
+  render() {
+    this.setHeaderOptions();
+
+    return (
+      
+      <FlatList
+        style={conversationStyles.container}
+        contentContainerStyle={conversationStyles.contentContainer}
+        data={this.state.conversations}
+        renderItem={({ item }) => (
+          <OptionButton
+            item={item}
+            func={() =>
+              this.state.navigation.navigate('ChatView', {
+                userId: item.userId,
+                conversationId: item.conversationId,
+                userName: item.label,
+              })
+            }
           />
-        </View>
-      }
-    />
-  );
+        )}
+        ItemSeparatorComponent={() => {
+          return <View style={conversationStyles.separator} />;
+        }}
+        ListHeaderComponent={
+          <View style={conversationStyles.searchConvBox}>
+            <TextInput
+              style={conversationStyles.searchConv}
+              placeholder={'Sök...'}
+            />
+          </View>
+        }
+      />
+      
+    );
+  }
 }
 
 function OptionButton({ item, func }) {
@@ -106,6 +117,10 @@ function OptionButton({ item, func }) {
       </View>
     </RectButton>
   );
+}
+
+export default function (navigation) {
+  return <ConversationsView navigation={navigation} />;
 }
 
 //Tillfällig data för att kunna skapa scss
