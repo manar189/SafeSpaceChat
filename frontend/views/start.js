@@ -19,10 +19,10 @@ class StartView extends Component {
     return (
       <View style={startStyles.container}>
         <View style={startStyles.logo}>
-          <EvilIcons name="plus" size={40} color="white" />
+          <EvilIcons name="plus" size={50} color="white" />
+          {/*fast loggan sen*/}
           <Text style={startStyles.text}>SAFESPACE</Text>
         </View>
-        {/*fast loggan sen*/}
 
         <TouchableOpacity
           style={[buttonStyle.button, buttonStyle.startButton]}
@@ -45,8 +45,14 @@ class StartView extends Component {
           <Text style={buttonStyle.text}>Hjälp</Text>
         </TouchableOpacity>
 
-        <EvilIcons name="plus" size={40} color="white" />
-        <Text style={startStyles.text}>SAFESPACE</Text>
+        <TouchableOpacity
+          style={startStyles.signInText}
+          onPress={() => this.state.navigation.navigate('SignIn')}
+        >
+          <Text style={startStyles.text}>
+            Har du redan ett konto? Logga in.
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }

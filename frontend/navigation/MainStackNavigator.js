@@ -107,7 +107,7 @@ function MainStackNavigator() {
           name="Help"
           component={Help}
           options={{
-            title: '',
+            title: 'Hjälp',
             headerStyle: {
               backgroundColor: '#133b43',
               borderBottomWidth: 0,

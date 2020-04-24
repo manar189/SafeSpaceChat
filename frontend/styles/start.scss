@@ -10,5 +10,16 @@
 }
 
 .logo {
-  margin-right: 12;
+  margin-bottom: 3rem;
+  display: flex;
+}
+
+.text {
+  color: $buttonColor;
+  font-size: 20;
+  align-self: center;
+}
+
+.signInText {
+  margin-top: 5rem;
 }

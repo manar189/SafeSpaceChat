@@ -104,7 +104,7 @@ export default class Register extends Component {
           style={buttonStyle.button}
           onPress={() => this.registerUser()}
         >
-          <Text style={buttonStyle.buttonText}>Registrera</Text>
+          <Text style={buttonStyle.text}>Registrera</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     );

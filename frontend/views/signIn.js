@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 
 import styles from '../styles/signIn.scss';
@@ -59,6 +60,10 @@ export default class SignIn extends Component {
     }
   }
 
+  resetPassword() {
+    Alert.alert('Det var ju tråkigt');
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
@@ -88,11 +93,22 @@ export default class SignIn extends Component {
           placeholder={'**********'}
           secureTextEntry={true}
         />
+
+        <TouchableOpacity>
+          <Text
+            style={styles.forgottenPsw}
+            onPress={() => this.resetPassword()}
+          >
+            {' '}
+            Glömt lösenord?
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={buttonStyle.button}
           onPress={() => this.signIn()}
         >
-          <Text style={buttonStyle.buttonText}>Logga in</Text>
+          <Text style={buttonStyle.text}>Logga in</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     );
