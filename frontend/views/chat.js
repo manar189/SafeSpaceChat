@@ -39,7 +39,6 @@ class ChatView extends Component {
 */
   //async componentDidUpdate() {
   async componentDidMount() {
-    
     const loadedMessages = await loadMessages(this.state.conversationId);
 
     this.setState({ messages: loadedMessages.reverse() });
@@ -47,9 +46,6 @@ class ChatView extends Component {
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
-
-    //const loadedMessages = await loadMessages(this.state.conversationId);
-    //this.setState({ messages: loadedMessages });
 
     this.socket.on('message', (message) => {
       const incomingMessage = {
@@ -71,7 +67,7 @@ class ChatView extends Component {
     const newMessage = {
       text: this.state.currMsg,
       userId: this.state.userId,
-      receiverId: '',// 5e843ddbbd8a99081cd3f613',
+      receiverId: '', // 5e843ddbbd8a99081cd3f613',
       conversationId: this.state.conversationId,
     };
 
@@ -88,6 +84,7 @@ class ChatView extends Component {
       message.text != ''
     ) {
       this.state.messages.reverse().push(message);
+      this.state.messages.reverse();
       this.state.height = 0;
       this.render();
     }
@@ -104,9 +101,9 @@ class ChatView extends Component {
           ref={(el) => (this.list = el)}
           data={this.state.messages}
           renderItem={({ item }) => (
-            <Item msg={item} userId={this.state.userId} />
+            <ChatMessage msg={item} userId={this.state.userId} />
           )}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(renderMessage) => renderMessage._id}
           inverted
         />
 
@@ -148,7 +145,8 @@ class ChatView extends Component {
   }
 }
 
-function Item({ msg, userId }) {
+function ChatMessage({ msg, userId }) {
+  console.log(JSON.stringify(msg));
   if (msg.userId != userId) {
     return (
       <View style={[chatStyles.msg, chatStyles.msgRecieved]}>

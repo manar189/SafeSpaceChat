@@ -47,10 +47,9 @@ class ConversationsView extends Component {
   }
 
   async componentDidMount() {
-
     const loadedFriends = await loadFriends(this.state.userId);
-    
-    loadedFriends.forEach(f => {
+
+    loadedFriends.forEach((f) => {
       const item = {
         label: f.label,
         userId: f.userId,
