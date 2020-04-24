@@ -12,6 +12,7 @@ const createMessage = require('./handlers/createMessage');
 const loadFriends = require('./handlers/loadFriends');
 const addFriend = require('./handlers/addFriend');
 const createConversation = require('./handlers/createConversation');
+const createUser = require('./handlers/createUser');
 
 app.use(cors());
 app.use(express.json());
@@ -57,6 +58,8 @@ app.post('/addfriend', (req) => {
   createConversation(req.body)
   addFriend(req.body)
 });
+
+app.post('/users', (req) => {createUser(req.body)});
 
 server.listen(config.server.port, ()=>{
     console.log(`Server is running on port: ${config.server.port}`);

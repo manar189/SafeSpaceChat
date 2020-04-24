@@ -15,8 +15,6 @@ module.exports = async function loadFriends(userId, friends){
                     
                     if (friend._id.equals(conv.userOne) || friend._id.equals(conv.userTwo)) {
 
-                        console.log(conv.messages[0]);
-
                         let displayMessage = 'Skriv ett meddelande...';
 
                         // await (Message.findById(conv.messages[0])
