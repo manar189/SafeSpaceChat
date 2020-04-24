@@ -10,7 +10,6 @@ const config = require('./config');
 const loadMessages = require('./handlers/loadMessages');
 const createMessage = require('./handlers/createMessage');
 const loadFriends = require('./handlers/loadFriends');
-const getConversationId = require('./handlers/getConversationId');
 const createConversation = require('./handlers/createConversation');
 
 app.use(cors());
@@ -53,9 +52,7 @@ app.get('/messages/:conversationId', (req, res) => {loadMessages(req.params.conv
 // Routing to load all conversations from a user
 app.get('/friends/:userId', (req, res) => {loadFriends(req.params.userId, res)});
 
-app.post('/conversations', (req, res) => {getConversationId(req.body, res)});
-
-app.post('/conversations/add', (req, res) => {createConversation(req.body, res)});
+app.post('/conversations', (req, res) => {createConversation(req.body, res)});
 
 server.listen(config.server.port, ()=>{
     console.log(`Server is running on port: ${config.server.port}`);

@@ -47,33 +47,15 @@ class ConversationsView extends Component {
   }
 
   async componentDidMount() {
+
     const loadedFriends = await loadFriends(this.state.userId);
-    /***************************
-     * Här är problemet!
-     *
-     * loadedConvId får inte conversationId från /handlers/getConversationsId
-     * I /handlers/getConversationId hittas id:t men i /connections/getConversationsId
-     * stannar den vid fetch(), den går inte in i .then()
-     * det skulle kunna vara något med att det är en async funktion, men jag vet inte säkert
-     * det är som den pausas där för det blir inget error
-     ****************************/
-
-    loadedFriends.forEach((friend) => {
-      const loadedConvId = getConversationId({
-        userId: this.state.userId,
-        friendId: friend._id,
-      });
-
-      // Detta ger mycket konstigt resultat, troligtvis har inte getConversationId() laddat klart innan detta skrivs ut
-      // Försökte sätta await på getConversationId() men det hjälpte inte
-      console.log('Loaded conversation id: ' + JSON.stringify(loadedConvId));
-
+    
+    loadedFriends.forEach(f => {
       const item = {
-        label: friend.username,
-        userId: friend._id,
-        conversationId: loadedConvId,
+        label: f.label,
+        userId: f.userId,
+        conversationId: f.conversationId,
       };
-
       this.state.conversations.push(item);
     });
   }

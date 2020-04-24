@@ -10,7 +10,6 @@ export default async (userId) => {
       .json()
       .then((res) => {
         conversations = res;
-        ('');
       })
       .catch((err) => console.log('Error fetching data in loadFriend', err));
 

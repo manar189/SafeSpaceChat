@@ -2,13 +2,11 @@ import config from '../../backend/config';
 
 const serverURL = `http://${config.server.host}:${config.server.port}`;
 
-export default async (req) => {
-  try {
-    var conversationId;
-
+export default async function (req) {
+  //try {
     console.log('req: ' + req.userId);
 
-    await fetch(serverURL + `/conversations`, {
+    var convId = await fetch(serverURL + `/conversations`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -16,18 +14,20 @@ export default async (req) => {
       },
       body: JSON.stringify(req),
     })
-      .then((res) => {
-        /************************
-         * Här går den inte in  *
-         ************************/
-        conversationId = res;
-        console.log('Result from fetch: ' + JSON.stringify(res));
-      })
-      .catch((err) => console.log('Error fetching conversations id', err));
+    .then((response) => response.json())
+    .then((json) => {
+      /************************
+       * Här går den inte in  *
+       ************************/
+      conversationId = json;
+     
+      console.log('Result from fetch: ' + JSON.stringify(json));
+    })
+    .catch((err) => console.log('Error fetching conversations id', err));
     console.log('Fetching conversations id: ' + JSON.stringify(conversationId));
 
-    return conversationId;
-  } catch (error) {
-    return console.log('catched error when fetching conversations: ' + error);
-  }
+    //return conversationId;
+  // } catch (error) {
+  //   console.log('catched error when fetching conversations: ' + error);
+  // }
 };
