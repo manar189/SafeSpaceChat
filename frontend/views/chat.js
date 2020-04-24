@@ -32,27 +32,20 @@ class ChatView extends Component {
     };
   }
 
-  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA port: I ./backend/config TILL DIN LOKALA HEMMA!!!
-    Läget är följande:
-    - När man skriver ett meddelande så skickas det via socket.io till backend som skickar tillbaka samma meddelande till
-      en socket med mottagarens id, samt skapar meddelandet i databasen.
-    - Funktionen "newMessage" ska göra så att nya meddelanden läggs till i den aktiva chatten om det har rätt conversationId.
-      Alltså ska den funktionen aktiveras både när man själv skriver ett meddelande och när man tar emot ett meddelande i den
-      aktiva chatten. I nuläget har jag gjort så att meddelanden skickas till mig själv vilket gör att newMessage kallas på två gånger.
-
+  /*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA host: I ./backend/config TILL DIN LOKALA HEMMA!!!
 
       -Ibland hoppar meddelandena när man skickat nytt, oklart varför. 
 */
-
+  //async componentDidUpdate() {
   async componentDidMount() {
     const loadedMessages = await loadMessages(this.state.conversationId);
 
     this.setState({ messages: loadedMessages.reverse() });
-
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
     this.socket.emit('init', {
       senderId: this.state.userId,
     });
+
     this.socket.on('message', (message) => {
       const incomingMessage = {
         text: message.text,
@@ -73,7 +66,7 @@ class ChatView extends Component {
     const newMessage = {
       text: this.state.currMsg,
       userId: this.state.userId,
-      receiverId: '5e843ddbbd8a99081cd3f613',
+      receiverId: '', // 5e843ddbbd8a99081cd3f613',
       conversationId: this.state.conversationId,
     };
 
@@ -90,6 +83,7 @@ class ChatView extends Component {
       message.text != ''
     ) {
       this.state.messages.reverse().push(message);
+      this.state.messages.reverse();
       this.state.height = 0;
       this.render();
     }
@@ -106,9 +100,9 @@ class ChatView extends Component {
           ref={(el) => (this.list = el)}
           data={this.state.messages}
           renderItem={({ item }) => (
-            <Item msg={item} userId={this.state.userId} />
+            <ChatMessage msg={item} userId={this.state.userId} />
           )}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(renderMessage) => renderMessage._id}
           inverted
         />
 
@@ -150,7 +144,8 @@ class ChatView extends Component {
   }
 }
 
-function Item({ msg, userId }) {
+function ChatMessage({ msg, userId }) {
+  console.log(JSON.stringify(msg));
   if (msg.userId != userId) {
     return (
       <View style={[chatStyles.msg, chatStyles.msgRecieved]}>

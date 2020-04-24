@@ -17,10 +17,11 @@ var signedIn = false;
 var startScreen = 'SignIn';
 
 function MainStackNavigator() {
-  // Detta gör inget nu men tanken är att när man loggat in en gång så öppnas conversationView istället för signIn
   if (signedIn) {
     startScreen = 'Conversation';
   } else {
+    // Vill du inte alltid börja på startskärmen så ändra här till den skärm du önskar
+    // Skärmen du önskar heter som namnet den importeras som
     startScreen = 'Start';
   }
 
@@ -150,5 +151,4 @@ function MainStackNavigator() {
     </NavigationContainer>
   );
 }
-
 export default MainStackNavigator;

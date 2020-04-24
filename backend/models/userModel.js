@@ -1,4 +1,5 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
+const Conversation = require('./conversationModel');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -6,11 +7,10 @@ const userSchema = new Schema({
   fullName: {
     type: String,
     //required: true,
-    //unique: false,
   },
   email: {
     type: String,
-    //unique: true,
+    unique: true,
     //required: true,
   },
   password: {
@@ -25,6 +25,14 @@ const userSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Conversation',
   }],
+  isSupervisor: {
+    type: Boolean,
+    //required: true,
+  },
+  supervisions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }]
 });
 
 const User = mongoose.model('User', userSchema);

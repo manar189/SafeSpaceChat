@@ -18,6 +18,8 @@ import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
 import conversationStyles from '../styles/conversations';
+import loadFriends from '../connections/loadFriends';
+import getConversationId from '../connections/getConversationsId';
 
 /*
     Detta ska kopplas till backend och därmed ska alla konversationer hämtas från DB. Om det inte redan finns så bör vi ha ett par konversationer att kunna testa med nu.
@@ -37,9 +39,23 @@ class ConversationsView extends Component {
     super(props);
 
     this.state = {
+      userId: '5e843ddbbd8a99081cd3f613',
       navigation: this.props.navigation.navigation,
-      conversations: TEMPDATA,
+      conversations: [],
     };
+  }
+
+  async componentDidMount() {
+    const loadedFriends = await loadFriends(this.state.userId);
+
+    loadedFriends.forEach((f) => {
+      const item = {
+        label: f.label,
+        userId: f.userId,
+        conversationId: f.conversationId,
+      };
+      this.state.conversations.push(item);
+    });
   }
 
   setHeaderOptions() {
@@ -71,13 +87,14 @@ class ConversationsView extends Component {
         renderItem={({ item }) => (
           <OptionButton
             item={item}
-            func={() =>
+            func={() => {
               this.state.navigation.navigate('ChatView', {
                 userId: item.userId,
                 conversationId: item.conversationId,
                 userName: item.label,
-              })
-            }
+              });
+              console.log(item.conversationId);
+            }}
           />
         )}
         ItemSeparatorComponent={() => {
@@ -122,70 +139,3 @@ function OptionButton({ item, func }) {
 export default function (navigation) {
   return <ConversationsView navigation={navigation} />;
 }
-
-//Tillfällig data för att kunna skapa scss
-const TEMPDATA = [
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Lisa Avlång',
-    msg: 'hahahah! Men vad säger du om...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Anna Asbra',
-    msg: 'ok',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Fidde Framåt',
-    msg: 'Starta en konversation...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Lisa Avlång',
-    msg: 'hahahah! Men vad säger du om...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Anna Asbra',
-    msg: 'ok',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Fidde Framåt',
-    msg: 'Starta en konversation...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-];

@@ -6,6 +6,6 @@ module.exports = async function loadMessages(req, res){
         .then((conversation) => {
             res.json(conversation.messages);
         })
-        .catch(err => console.log('Error fetching data', err))
+        .catch(err => console.log('Error fetching data', err));
 };
 
