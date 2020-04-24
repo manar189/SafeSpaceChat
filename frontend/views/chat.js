@@ -24,6 +24,7 @@ class ChatView extends Component {
     this.state = {
       userName: routeParams.userName,
       userId: routeParams.userId,
+      receiverId: routeParams.receiverId,
       conversationId: routeParams.conversationId,
       currMsg: '',
       messages: [],
@@ -71,7 +72,7 @@ class ChatView extends Component {
     const newMessage = {
       text: this.state.currMsg,
       userId: this.state.userId,
-      receiverId: '',// 5e843ddbbd8a99081cd3f613',
+      receiverId: this.state.receiverId,
       conversationId: this.state.conversationId,
     };
 

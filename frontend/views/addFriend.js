@@ -5,6 +5,7 @@ import { Text, View } from 'react-native';
 import { Switch } from 'react-native-switch';
 
 import addFriendStyles from '../styles/addFriend.scss';
+import addFriend from '../connections/addFriend.js';
 
 /*
     I brist på andra ikoner satte jag dessa tillfälligt.
@@ -17,6 +18,14 @@ export default class AddFriend extends Component {
     this.state = {
       camera: true,
     };
+  }
+
+  componentDidMount() {
+    const dummy = {
+      userOne: '5e843ddbbd8a99081cd3f613',
+      userTwo: '5ea2ebde64064b3cfc0dfc4a',
+    }
+    addFriend(dummy);
   }
 
   changeView(bool) {

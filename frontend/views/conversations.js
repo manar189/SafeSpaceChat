@@ -19,7 +19,6 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import conversationStyles from '../styles/conversations';
 import loadFriends from '../connections/loadFriends';
-import getConversationId from '../connections/getConversationsId';
 
 /*
     Detta ska kopplas till backend och därmed ska alla konversationer hämtas från DB. Om det inte redan finns så bör vi ha ett par konversationer att kunna testa med nu.
@@ -55,6 +54,7 @@ class ConversationsView extends Component {
         label: f.label,
         userId: f.userId,
         conversationId: f.conversationId,
+        msg: f.msg,
       };
       this.state.conversations.push(item);
     });
@@ -91,9 +91,10 @@ class ConversationsView extends Component {
             item={item}
             func={() => {
               this.state.navigation.navigate('ChatView', {
-                userId: item.userId,
+                userId: this.state.userId,
                 conversationId: item.conversationId,
                 userName: item.label,
+                receiverId: item.userId,
               });
               console.log(item.conversationId);
             }}

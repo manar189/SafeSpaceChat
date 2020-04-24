@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Conversation = require('./conversationModel');
+const User = require('./userModel');
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
