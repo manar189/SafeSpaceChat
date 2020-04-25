@@ -146,7 +146,7 @@ class ChatView extends Component {
 }
 
 function ChatMessage({ msg, userId }) {
-  console.log(JSON.stringify(msg));
+  //console.log(JSON.stringify(msg));
   if (msg.userId != userId) {
     return (
       <View style={[chatStyles.msg, chatStyles.msgRecieved]}>

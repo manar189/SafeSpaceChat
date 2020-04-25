@@ -59,8 +59,8 @@ app.post('/addfriend', (req) => {
   addFriend(req.body)
 });
 
-app.post('/users', (req) => {createUser(req.body)});
+app.post('/users', (req, res) => {createUser(req.body, res)});
 
-server.listen(config.server.port, ()=>{
+server.listen(config.server.port, () =>{
     console.log(`Server is running on port: ${config.server.port}`);
 });

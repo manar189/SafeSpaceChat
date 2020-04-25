@@ -4,46 +4,60 @@ const Message = require('../models/messageModel');
 
 let friendArray = [];
 
-module.exports = async function loadFriends(userId, friends){
+module.exports = async function loadFriends(userId, res){
     await User.findById(userId)
-        .populate('friends')
-        .populate('conversations')
-        .populate('messages')
         .then((user) => {
-            user.friends.forEach(friend => {
-                user.conversations.forEach(conv => {
-                    
-                    if (friend._id.equals(conv.userOne) || friend._id.equals(conv.userTwo)) {
-
-                        let displayMessage = 'Skriv ett meddelande...';
-
-                        // await (Message.findById(conv.messages[0])
-                        // .then(message => {
-                        //     console.log(message);
-                        //     if(message){
-                        //         console.log(message.text);
-                        //         displayMessage = message.text;
-                        //     } 
-                        //     else{
-                        //         displayMessage = 'Skriv ett meddelande...';
-                        //     }
-                        // }))
+            if(!user){
+                return res.status(400).json({
+                    status: 'error',
+                    error: 'User not in database',
+                  });
+                }
+            
+            user.conversations.forEach(async (conversationId) => {
+                await Conversation.findById(conversationId).populate('userOne').populate('userTwo').populate('messages').then(
+                    (conversation) => {
                         
+                        let name;
+                        let id;
+                        let displayMessage;
+
+                        if(conversation.userOne._id.equals(userId)){
+                            name = conversation.userTwo.fullName;
+                            id = conversation.userTwo._id;
+                        }
+                        else if(conversation.userTwo._id.equals(userId)){
+                            name = conversation.userOne.fullName;
+                            id = conversation.userOne._id;
+                        }
+                        else{
+                            console.log('Something went wrong in /handlers/loadFriend');
+                        }
+
+                        if(conversation.messages.length > 0){
+                            displayMessage = conversation.messages[conversation.messages.length - 1].text;
+                        }
+                        else{
+                            displayMessage = 'Skriv ett meddelande...'
+                        }
 
                         const item = {
-                            label: friend.fullName,
-                            userId: friend._id,
-                            conversationId: conv._id,
+                            label: name,
+                            userId: id,
+                            conversationId: conversation._id,
                             msg: displayMessage,
                         }
                         friendArray.push(item);
                     }
-                })
+                )
+                .catch(err => console.log('Error fetching data in loadFriends 1', err, err));
             })
-
-            friends.json(friendArray);
+            res.status(200).json({
+                status: 'succes',
+                data: friendArray,
+              })
         })
-        .catch(err => console.log('Error fetching data in loadFriends', err));
+        .catch(err => console.log('Error fetching data in loadFriends 2', err));        
+}
         
-       
-};
+

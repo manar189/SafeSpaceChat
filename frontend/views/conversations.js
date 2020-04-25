@@ -6,6 +6,8 @@ npm install @react-navigation/stack
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view */
 
 import React, { Component } from 'react';
+import io from 'socket.io-client';
+
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   View,
@@ -21,14 +23,6 @@ import conversationStyles from '../styles/conversations';
 import loadFriends from '../connections/loadFriends';
 
 /*
-    Detta ska kopplas till backend och därmed ska alla konversationer hämtas från DB. Om det inte redan finns så bör vi ha ett par konversationer att kunna testa med nu.
-    Det som jag tror behövs fixas är detta: 
-
-    - Behövs skapas en koppling i /connections/loadConversations som hämtar alla konverationer genom /handlers/loadConversations.
-    - För att hämta konversationerna krävs en funktion som retunerar alla konversationer i /handlers/loadConversations.
-    - Konversationerna ska hämtas från /connections/loadConversations och sparas i conversations (som i chat.js)
-    - Man borde kunna hämta senaste meddelandet i varje konversation som visas i denna lista? Som då ska ersätta msg i TEMPDATA. 
-
     - Vid för många konversationer i listan blir det skumt, jag vet dock inte vart problemet ligger.
     - Sökrutan saknar funktion
 */
@@ -48,16 +42,7 @@ class ConversationsView extends Component {
   async componentDidMount() {
 
     const loadedFriends = await loadFriends(this.state.userId);
-    
-    loadedFriends.forEach(f => {
-      const item = {
-        label: f.label,
-        userId: f.userId,
-        conversationId: f.conversationId,
-        msg: f.msg,
-      };
-      this.state.conversations.push(item);
-    });
+    this.setState({conversations: loadedFriends.data});
   }
 
   setHeaderOptions() {

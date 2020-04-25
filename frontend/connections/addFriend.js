@@ -12,6 +12,6 @@ export default async function (req) {
       },
       body: JSON.stringify(req),
     })
-    .then((response) => console.log(response))
+    .then(() => console.log(response))
     .catch((err) => console.log('Error adding friend', err));
 };
