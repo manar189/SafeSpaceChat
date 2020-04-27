@@ -13,6 +13,8 @@ const loadFriends = require('./handlers/loadFriends');
 const addFriend = require('./handlers/addFriend');
 const createConversation = require('./handlers/createConversation');
 const createUser = require('./handlers/createUser');
+const loadSupervisions = require('./handlers/loadSupervisions');
+const superviseUser = require('./handlers/superviseUser');
 
 app.use(cors());
 app.use(express.json());
@@ -60,6 +62,10 @@ app.post('/addfriend', (req) => {
 });
 
 app.post('/users', (req, res) => {createUser(req.body, res)});
+
+app.get('/supervisions/:id', (req, res) => {loadSupervisions(req.params.id, res)});
+
+app.get('/supervisions/user/:id', (req, res) => {superviseUser(req.params.id, res)});
 
 server.listen(config.server.port, () =>{
     console.log(`Server is running on port: ${config.server.port}`);

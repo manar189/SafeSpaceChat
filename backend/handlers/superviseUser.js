@@ -2,10 +2,11 @@ const User = require('../models/userModel');
 const Conversation = require('../models/conversationModel');
 const Message = require('../models/messageModel');
 
-module.exports = async function loadFriends(userId, res){
+module.exports = async function superviseUser(userId, res){
+
     await User.findById(userId)
         .populate({
-            path: 'conversations',
+            path    : 'conversations',
             populate: [
                 { path: 'userOne' },
                 { path: 'userTwo' },
@@ -16,47 +17,40 @@ module.exports = async function loadFriends(userId, res){
             if(!user){
                 return res.status(400).json({
                     status: 'error',
-                    error: 'User not in database',
+                    error: 'User not in DB',
                 });
             }
             
             res.status(200).json({
                 status: 'succes',
                 data: user.conversations.map((conversation) => {
-                
                     let name;
-                    let id;
-                    let displayMessage;
+                    let date;
 
                     if(conversation.userOne._id.equals(userId)){
                         name = conversation.userTwo.fullName;
-                        id = conversation.userTwo._id;
                     }
                     else if(conversation.userTwo._id.equals(userId)){
                         name = conversation.userOne.fullName;
-                        id = conversation.userOne._id;
                     }
                     else{
-                        console.log('Something went wrong in /handlers/loadFriend');
+                        console.log('Something went wrong in superviseUser');
                     }
 
                     if(conversation.messages.length > 0){
-                        displayMessage = conversation.messages[conversation.messages.length - 1].text;
+                        date = conversation.messages[conversation.messages.length - 1].createdAt;
                     }
                     else{
-                        displayMessage = 'Skriv ett meddelande...'
+                        date = '';
                     }
 
                     return ({
-                        label: name,
-                        userId: id,
-                        conversationId: conversation._id,
-                        msg: displayMessage,
+                        fullName: name,
+                        nMessages: conversation.messages.length,
+                        messageDate: date
                     })
                 })
             })
         })
-        .catch(err => console.log('Error fetching data in loadFriends', err));        
-}
-        
-
+        .catch(err => console.log('Error fetching data in superviseUser ', err));
+    }

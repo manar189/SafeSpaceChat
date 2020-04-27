@@ -9,7 +9,7 @@ export default async (conversationId) => {
     await (await fetch(serverURL + `/messages/${conversationId}`))
       .json()
       .then((res) => {
-        messages = res;
+        messages = res.data;
         ('');
       })
       .catch((err) => console.log('Error fetching messages', err));

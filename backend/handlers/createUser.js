@@ -34,12 +34,13 @@ module.exports = async function createUser(req, res) {
                         supervisor.save();
                     })
                 }
-            
-                
             })
             res.status(200).json({
                 status: 'succes',
-                data: newUser._id,
+                data: {
+                    userId: newUser._id,
+                    isSupervisor: newUser.isSupervisor
+                }
               })
           }
         });

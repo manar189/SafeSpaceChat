@@ -33,7 +33,7 @@ class ConversationsView extends Component {
     //console.log(props);
 
     this.state = {
-      userId: '5e843ddbbd8a99081cd3f613',
+      userId: '5ea40c79f9bbab362c1ce66d',
       navigation: this.props.navigation.navigation,
       conversations: [],
     };
