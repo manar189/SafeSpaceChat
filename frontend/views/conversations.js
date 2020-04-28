@@ -30,7 +30,6 @@ import loadFriends from '../connections/loadFriends';
 class ConversationsView extends Component {
   constructor(props) {
     super(props);
-    //console.log(props);
 
     this.state = {
       userId: '5ea40c79f9bbab362c1ce66d',
@@ -40,7 +39,6 @@ class ConversationsView extends Component {
   }
 
   async componentDidMount() {
-
     const loadedFriends = await loadFriends(this.state.userId);
     this.setState({conversations: loadedFriends.data});
   }
@@ -127,70 +125,3 @@ function OptionButton({ item, func }) {
 export default function (navigation) {
   return <ConversationsView navigation={navigation} />;
 }
-
-//Tillfällig data för att kunna skapa scss
-const TEMPDATA = [
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Lisa Avlång',
-    msg: 'hahahah! Men vad säger du om...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Anna Asbra',
-    msg: 'ok',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Fidde Framåt',
-    msg: 'Starta en konversation...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Lisa Avlång',
-    msg: 'hahahah! Men vad säger du om...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Anna Asbra',
-    msg: 'ok',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Fidde Framåt',
-    msg: 'Starta en konversation...',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-  {
-    icon: 'circle',
-    label: 'Kalle Kula',
-    msg: 'Tja vgd',
-    userId: '5e843ddbbd8a99081cd3f613',
-    conversationId: '5e68c508c18e2a00ee6bf0f8',
-  },
-];

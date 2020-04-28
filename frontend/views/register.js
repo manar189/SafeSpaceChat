@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Alert,
 } from 'react-native';
 
 import styles from '../styles/signIn.scss';
@@ -15,36 +14,38 @@ import buttonStyle from '../styles/button.scss';
 
 var authenticated = false;
 
-export default class SignIn extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      userAuth: false,
+      userName: '',
+
       error: '',
-      user: [],
     };
   }
 
-  authUser() {
-    // Här ska epost och lösenord kollas mot användare i databasen
-    if (this.state.email != '' && this.state.password != '') {
+  authInput() {
+    if (
+      this.state.email != '' &&
+      this.state.password != '' &&
+      this.state.userName != ''
+    ) {
       this.setState({ error: '' });
       authenticated = true;
     } else {
       this.setState({
-        error: 'Fyll i e-post och/eller lösenord',
+        error: 'Var god fyll i alla fält',
       });
       authenticated = false;
     }
   }
 
-  signIn() {
-    this.authUser();
+  registerUser() {
+    this.authInput();
 
     if (authenticated) {
-      console.log('Signing in...');
       this.props.navigation.navigate('Conversation');
 
       this.setState({
@@ -60,14 +61,11 @@ export default class SignIn extends Component {
     }
   }
 
-  resetPassword() {
-    Alert.alert('Det var ju tråkigt');
-  }
-
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
         {/* Keyboard avoiding view funkar ej, måste finnas ett sätt för alla komponenter att flytta sig när tangetbordet dyker upp!*/}
+
         <EvilIcons name="sc-odnoklassniki" size={90} color="white" />
         {/*Här ska det vara en fin logga  */}
         <Text style={styles.errorMsg}>{this.state.error}</Text>
@@ -93,22 +91,20 @@ export default class SignIn extends Component {
           placeholder={'**********'}
           secureTextEntry={true}
         />
-
-        <TouchableOpacity>
-          <Text
-            style={styles.forgottenPsw}
-            onPress={() => this.resetPassword()}
-          >
-            {' '}
-            Glömt lösenord?
-          </Text>
-        </TouchableOpacity>
-
+        <Text style={styles.textLabel}>Namn</Text>
+        <TextInput
+          ref={(input) => {
+            this.nameInput = input;
+          }}
+          style={[styles.textInput]}
+          onChangeText={(userName) => this.setState({ userName })}
+          placeholder={'Kalle Kula'}
+        />
         <TouchableOpacity
           style={buttonStyle.button}
-          onPress={() => this.signIn()}
+          onPress={() => this.registerUser()}
         >
-          <Text style={buttonStyle.text}>Logga in</Text>
+          <Text style={buttonStyle.text}>Registrera</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     );
