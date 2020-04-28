@@ -9,7 +9,7 @@ import ChatView from '../views/chat';
 import AddFriend from '../views/addFriend';
 import SupervisionView from '../views/supervisions';
 
-import conversationStyles from '../styles/conversations';
+import supervisionsStyles from '../styles/supervisions';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
   return(
     <NavigationContainer>
     <Tab.Navigator tabBarOptions={{
-      activeTintColor: 'green',
+      activeTintColor: '#4499a9',
 
     }}>
       <Tab.Screen
@@ -25,8 +25,8 @@ const Tab = createBottomTabNavigator();
           component={MainStackNavigator}
           options={{
             tabBarLabel: '',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" color={color} size={size} />
+          tabBarIcon: ({ color}) => (
+            <MaterialIcons name="home"  style ={supervisionsStyles.tabBarIcons}color={color} size={30} />
           ),
           }}
         />
@@ -36,7 +36,7 @@ const Tab = createBottomTabNavigator();
           options={{
             tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="supervisor-account" color={color} size={size} />
+            <MaterialIcons name="supervisor-account"  style={supervisionsStyles.tabBarIcons} color={color} size={30} />
           ),
           }}
         />
@@ -74,6 +74,7 @@ function MainStackNavigator() {
         />
         
         <Stack.Screen name="ChatView" component={ChatView} />
+        
         <Stack.Screen
           name="AddFriend"
           component={AddFriend}
