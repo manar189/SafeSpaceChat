@@ -10,14 +10,14 @@ module.exports = async function login(req, res) {
       if(!user){
         return res.status(400).json({
           status: 'error',
-          error: 'Wrong email!',
+          error: 'Inkorrekt e-post eller lösenord',
         });
       }
 
       if(!(req.password == user.password)){
         return res.status(400).json({
           status: 'error',
-          error: 'Incorrect password!',
+          error: 'Inkorrekt e-post eller lösenord',
         });
       }
       else{
@@ -29,7 +29,6 @@ module.exports = async function login(req, res) {
           }
         });
       }
-      
   })
   .catch(err => console.log('Error in login', err))
 }
