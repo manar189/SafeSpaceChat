@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { EvilIcons } from '@expo/vector-icons';
 
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { Switch } from 'react-native-switch';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -128,6 +128,9 @@ export default class AddFriend extends Component {
     this.setState({
       scanned: true,
     });
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
+    if (addFriend({ userOne: this.state.userId, userTwo: data })) {
+      Alert.alert('Du har lagt till en ny kontakt');
+    }
   };
 }

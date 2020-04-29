@@ -61,11 +61,11 @@ class ChatView extends Component {
     });
   }
 
-  componentWillUnmount() {
+  /*componentWillUnmount() {
     this.socket.emit('disconnect', {
       senderId: this.state.userId,
     });
-  }
+  }*/
 
   submitChatMessage = () => {
     const newMessage = {
@@ -107,9 +107,9 @@ class ChatView extends Component {
           ref={(el) => (this.list = el)}
           data={this.state.messages}
           renderItem={({ item }) => (
-            <ChatMessage msg={item} userId={this.state.userId} />
+            <ChatMessage msg={item} userId={this.state.userId} key={item._id} />
           )}
-          keyExtractor={(renderMessage) => renderMessage._id}
+          keyExtractor={(renderMessage, key) => renderMessage._id.toString()}
           inverted
         />
 
