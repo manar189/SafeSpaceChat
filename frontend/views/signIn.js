@@ -13,6 +13,8 @@ import {
 import styles from '../styles/signIn.scss';
 import buttonStyle from '../styles/button.scss';
 
+import loginFunc from '../connections/login';
+
 var authenticated = false;
 
 export default class SignIn extends Component {
@@ -23,8 +25,8 @@ export default class SignIn extends Component {
       password: '',
       userAuth: false,
       error: '',
-      userId: '5ea40c79f9bbab362c1ce66d',
-      isSupervisor: true,
+      userId: '',
+      isSupervisor: '',
     };
   }
 
@@ -41,12 +43,28 @@ export default class SignIn extends Component {
     }
   }
 
-  signIn() {
+  async signIn() {
     this.authUser();
-    authenticated = true;
+    
+    const req = {
+      email: this.state.email,
+      password: this.state.password
+    }
 
-    if (authenticated) {
+    const loginResult = await loginFunc(req);
+
+    if (loginResult.status == 'error'){
+      
+      console.log(loginResult.error);
+    }
+    else if (authenticated) {
       console.log('Signing in...');
+
+      this.setState({
+        userId: loginResult.data.userId,
+        isSupervisor: loginResult.data.isSupervisor
+      })
+
 
       this.props.navigation.navigate('Conversation', {
         userId: this.state.userId,
