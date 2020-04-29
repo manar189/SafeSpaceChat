@@ -12,6 +12,8 @@ import {
 import styles from '../styles/signIn.scss';
 import buttonStyle from '../styles/button.scss';
 
+import createUser from '../connections/createUser.js';
+
 var authenticated = false;
 
 export default class Register extends Component {
@@ -23,6 +25,8 @@ export default class Register extends Component {
       userName: '',
 
       error: '',
+      userId: '',
+      isSupervisor: '',
     };
   }
 
@@ -42,15 +46,29 @@ export default class Register extends Component {
     }
   }
 
-  registerUser() {
+  async registerUser() {
     this.authInput();
 
     if (authenticated) {
-      this.props.navigation.navigate('Conversation');
+      const req = {
+        fullName: this.state.userName,
+        email: this.state.email,
+        password: this.state.password,
+        isSupervisor: true,
+      };
+
+      const res = await createUser(req);
 
       this.setState({
         email: '',
         password: '',
+        userId: res.data.userId,
+        isSupervisor: res.data.isSupervisor,
+      });
+
+      this.props.navigation.navigate('Conversation', {
+        userId: this.state.userId,
+        isSupervisor: this.state.isSupervisor,
       });
     } else {
       console.log('Could not sign in ');
@@ -77,7 +95,6 @@ export default class Register extends Component {
           style={[styles.textInput]}
           onChangeText={(email) => {
             this.setState({ email });
-            console.log(this.state.email);
           }}
           placeholder={'exempel@gmail.com'}
         />

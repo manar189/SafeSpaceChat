@@ -17,11 +17,13 @@ import addFriend from '../connections/addFriend.js';
 export default class AddFriend extends Component {
   constructor(props) {
     super(props);
+    var routeParams = this.props.navigation.route.params;
 
     this.state = {
       hasCameraPermission: null,
       scanned: false,
       camera: true,
+      userId: routeParams.userId,
     };
   }
   async componentDidMount() {
@@ -35,13 +37,13 @@ export default class AddFriend extends Component {
     });
   };
 
-  componentDidMount() {
-    const dummy = {
-      userOne: '5e843ddbbd8a99081cd3f613',
-      userTwo: '5ea2ebde64064b3cfc0dfc4a',
-    }
-    addFriend(dummy);
-  }
+  // componentDidMount() {
+  //   const dummy = {
+  //     userOne: '5e843ddbbd8a99081cd3f613',
+  //     userTwo: '5ea2ebde64064b3cfc0dfc4a',
+  //   }
+  //   addFriend(dummy);
+  // }
 
   changeView(bool) {
     this.setState({ camera: bool });

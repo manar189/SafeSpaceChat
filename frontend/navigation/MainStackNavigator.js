@@ -13,6 +13,7 @@ import Scan from '../views/signInScan';
 import ScanRegister from '../views/scanRegister';
 
 const Stack = createStackNavigator();
+
 var signedIn = false;
 var startScreen = 'SignIn';
 

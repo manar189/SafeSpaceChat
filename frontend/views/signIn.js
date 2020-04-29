@@ -23,7 +23,8 @@ export default class SignIn extends Component {
       password: '',
       userAuth: false,
       error: '',
-      user: [],
+      userId: '5ea40c79f9bbab362c1ce66d',
+      isSupervisor: true,
     };
   }
 
@@ -42,10 +43,15 @@ export default class SignIn extends Component {
 
   signIn() {
     this.authUser();
+    authenticated = true;
 
     if (authenticated) {
       console.log('Signing in...');
-      this.props.navigation.navigate('Conversation');
+
+      this.props.navigation.navigate('Conversation', {
+        userId: this.state.userId,
+        isSupervisor: this.state.isSupervisor,
+      });
 
       this.setState({
         email: '',
@@ -79,7 +85,6 @@ export default class SignIn extends Component {
           style={[styles.textInput]}
           onChangeText={(email) => {
             this.setState({ email });
-            console.log(this.state.email);
           }}
           placeholder={'exempel@gmail.com'}
         />

@@ -30,17 +30,25 @@ import loadFriends from '../connections/loadFriends';
 class ConversationsView extends Component {
   constructor(props) {
     super(props);
+    var routeParams = this.props.navigation.route.params;
 
     this.state = {
-      userId: '5ea40c79f9bbab362c1ce66d',
+      userId: routeParams.userId,
       navigation: this.props.navigation.navigation,
       conversations: [],
+      error: '',
     };
   }
 
   async componentDidMount() {
+    console.log('user id in conversation: ' + this.state.userId);
     const loadedFriends = await loadFriends(this.state.userId);
-    this.setState({conversations: loadedFriends.data});
+    console.log('loadedFriends in conversation: ' + loadedFriends);
+    if (!loadedFriends.data) {
+      this.setState({ error: 'Skrev meddelande här' });
+    } else {
+      this.setState({ conversations: loadedFriends.data });
+    }
   }
 
   setHeaderOptions() {
@@ -53,7 +61,11 @@ class ConversationsView extends Component {
       headerRight: () => (
         <TouchableOpacity
           style={conversationStyles.addFriendButton}
-          onPress={() => this.state.navigation.navigate('AddFriend')}
+          onPress={() =>
+            this.state.navigation.navigate('AddFriend', {
+              userId: this.state.userId,
+            })
+          }
         >
           <EvilIcons name="plus" size={40} color="white" />
         </TouchableOpacity>

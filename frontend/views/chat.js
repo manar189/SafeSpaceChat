@@ -30,6 +30,7 @@ class ChatView extends Component {
       loading: true,
       navigation: this.props.navigation.navigation,
       height: 0,
+      latestMsg: '',
     };
   }
 
@@ -39,6 +40,10 @@ class ChatView extends Component {
 */
   async componentDidMount() {
     const loadedMessages = await loadMessages(this.state.conversationId);
+
+    this.setState({
+      latestMsg: loadedMessages[loadedMessages.length - 1].text,
+    });
 
     this.setState({ messages: loadedMessages.reverse() });
     this.socket = io(`http://${config.server.host}:${config.server.port}`);
@@ -84,6 +89,8 @@ class ChatView extends Component {
     ) {
       this.state.messages.reverse().push(message);
       this.state.messages.reverse();
+      this.setState({ latestMsg: message.text });
+
       this.state.height = 0;
       this.render();
     }
