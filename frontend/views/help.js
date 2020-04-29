@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Button, TouchableOpacity, Text, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
-import startStyles from '../styles/start';
-import helpStyle from '../styles/help';
-import buttonStyle from '../styles/button';
+import startStyles from '../styles/start.scss';
+import helpStyle from '../styles/help.scss';
+import buttonStyle from '../styles/button.scss';
 
 class HelpView extends Component {
   constructor(props) {

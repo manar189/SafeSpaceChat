@@ -19,7 +19,7 @@ export default class AddFriend extends Component {
   constructor(props) {
     super(props);
     // var routeParams = this.props.navigation.route.params;
-    console.log(props);
+    //console.log(props);
     this.state = {
       hasCameraPermission: null,
       scanned: false,
@@ -78,7 +78,7 @@ export default class AddFriend extends Component {
     if (hasCameraPermission === false) {
       return <Text> No access to camera </Text>;
     }
-
+ 
     return (
       <View style={addFriendStyles.container}>
         <View style={addFriendStyles.content}>

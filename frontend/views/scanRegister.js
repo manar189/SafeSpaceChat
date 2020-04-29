@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { TextInput, TouchableOpacity, Text, View } from 'react-native';
 
-import styles from '../styles/signIn';
-import buttonStyle from '../styles/button';
+import styles from '../styles/signIn.scss';
+import buttonStyle from '../styles/button.scss';
 
 var authenticated = false;
 
