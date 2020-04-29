@@ -9,8 +9,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const loadMessages = require('./handlers/loadMessages');
 const createMessage = require('./handlers/createMessage');
-
-const login = require('./handlers/logIn')
+const login = require('./handlers/login')
 
 app.use(cors());
 app.use(express.json());
@@ -54,6 +53,8 @@ io.on('connection', (socket) => {
 app.get('/conversations/:id', (req, res) => {
   loadMessages(req.params.id, res)
 });
+
+app.post('/login', (req, res) => {login(req.body, res)});
 
 server.listen(config.server.port, () => {
   console.log(`Server is running on port: ${config.server.port}`);
