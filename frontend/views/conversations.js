@@ -61,11 +61,12 @@ class ConversationsView extends Component {
       headerRight: () => (
         <TouchableOpacity
           style={conversationStyles.addFriendButton}
-          onPress={() =>
+          onPress={() => {
             this.state.navigation.navigate('AddFriend', {
               userId: this.state.userId,
-            })
-          }
+            });
+            console.log('add friend');
+          }}
         >
           <EvilIcons name="plus" size={40} color="white" />
         </TouchableOpacity>
