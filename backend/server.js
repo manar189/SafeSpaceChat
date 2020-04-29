@@ -15,6 +15,7 @@ const createConversation = require('./handlers/createConversation');
 const createUser = require('./handlers/createUser');
 const loadSupervisions = require('./handlers/loadSupervisions');
 const superviseUser = require('./handlers/superviseUser');
+const loginFunc = require('./handlers/login');
 
 app.use(cors());
 app.use(express.json());
@@ -66,6 +67,8 @@ app.post('/users', (req, res) => {createUser(req.body, res)});
 app.get('/supervisions/:id', (req, res) => {loadSupervisions(req.params.id, res)});
 
 app.get('/supervisions/user/:id', (req, res) => {superviseUser(req.params.id, res)});
+
+app.post('/login', (req, res) => {loginFunc(req.body, res)});
 
 server.listen(config.server.port, () =>{
     console.log(`Server is running on port: ${config.server.port}`);

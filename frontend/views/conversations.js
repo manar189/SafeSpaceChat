@@ -82,6 +82,9 @@ class ConversationsView extends Component {
         style={conversationStyles.container}
         contentContainerStyle={conversationStyles.contentContainer}
         data={this.state.conversations}
+        keyExtractor={(conversation, index) =>
+          conversation.conversationId.toString()
+        }
         renderItem={({ item }) => (
           <OptionButton
             item={item}

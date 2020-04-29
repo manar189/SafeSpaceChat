@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { EvilIcons } from '@expo/vector-icons';
 
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { Switch } from 'react-native-switch';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import QRCode from 'react-native-qrcode-svg';
+//import QRCode from 'react-native-qrcode-svg';
+import { QRCode } from 'react-native-custom-qr-codes-expo';
 
 import addFriendStyles from '../styles/addFriend.scss';
 import addFriend from '../connections/addFriend.js';
@@ -18,13 +19,13 @@ import addFriend from '../connections/addFriend.js';
 export default class AddFriend extends Component {
   constructor(props) {
     super(props);
-    // var routeParams = this.props.navigation.route.params;
-    //console.log(props);
+    var routeParams = this.props.route.params;
+
     this.state = {
       hasCameraPermission: null,
       scanned: false,
       camera: true,
-      userId: '1234',
+      userId: routeParams.userId,
     };
   }
   async componentDidMount() {
@@ -97,9 +98,9 @@ export default class AddFriend extends Component {
             )}
             {!this.state.camera && setInterval(() => this.state.interval) && (
               <QRCode
-                value={'Lägg till användare med userID: ' + this.state.userId}
-                size={290}
-                ecl="H"
+                content={this.state.userId}
+                codeStyle="circle"
+                innerEyeStyle="circle"
               />
             )}
           </View>
@@ -127,6 +128,9 @@ export default class AddFriend extends Component {
     this.setState({
       scanned: true,
     });
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
+    if (addFriend({ userOne: this.state.userId, userTwo: data })) {
+      Alert.alert('Du har lagt till en ny kontakt');
+    }
   };
 }
