@@ -15,7 +15,7 @@ import ScanRegister from '../views/scanRegister';
 const Stack = createStackNavigator();
 
 var signedIn = false;
-var startScreen = 'SignIn';
+var startScreen = 'Start';
 
 function MainStackNavigator() {
   if (signedIn) {
