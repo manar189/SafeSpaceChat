@@ -17,7 +17,7 @@ import {
 import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
-import conversationStyles from '../styles/conversations';
+import conversationStyles from '../styles/conversations.scss';
 
 /*
     Detta ska kopplas till backend och därmed ska alla konversationer hämtas från DB. Om det inte redan finns så bör vi ha ett par konversationer att kunna testa med nu.

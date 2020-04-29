@@ -6,7 +6,7 @@ import ConversationView from '../views/conversations';
 import ChatView from '../views/chat';
 import AddFriend from '../views/addFriend';
 
-import conversationStyles from '../styles/conversations';
+//import conversationStyles from '../styles/conversations';
 
 const Stack = createStackNavigator();
 

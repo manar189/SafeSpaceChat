@@ -6,6 +6,7 @@ import { Switch } from 'react-native-switch';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import QRCode from 'react-native-qrcode-svg';
 
 import addFriendStyles from '../styles/addFriend.scss';
 
@@ -21,6 +22,7 @@ export default class AddFriend extends Component {
         hasCameraPermission: null,
         scanned: false,
         camera: true,
+        userId: "12345678",
     };
   }
   async componentDidMount() {
@@ -94,7 +96,12 @@ export default class AddFriend extends Component {
              onBarCodeScanned = {scanned ? undefined : this.handleBarCodeScanned}
              style = {StyleSheet.absoluteFillObject}
       />}
-             
+             {!this.state.camera && setInterval(() => this.state.interval) &&
+             <QRCode
+                value={"Lägg till användare med userID: " + this.state.userId}
+                size={290}
+                ecl="H"
+             />}
           </View>
           <View style={addFriendStyles.switch}>
             <EvilIcons name="image" size={50} color={colorCodeIcon} />
@@ -116,6 +123,7 @@ export default class AddFriend extends Component {
     );
   }
   
+
   handleBarCodeScanned = ({
     type,
     data
