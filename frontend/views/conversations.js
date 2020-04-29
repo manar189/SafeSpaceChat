@@ -6,8 +6,6 @@ npm install @react-navigation/stack
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view */
 
 import React, { Component } from 'react';
-import io from 'socket.io-client';
-
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   View,
@@ -78,6 +76,7 @@ class ConversationsView extends Component {
     this.setHeaderOptions();
 
     return (
+      
       <FlatList
         style={conversationStyles.container}
         contentContainerStyle={conversationStyles.contentContainer}
@@ -108,6 +107,7 @@ class ConversationsView extends Component {
           </View>
         }
       />
+      
     );
   }
 }
