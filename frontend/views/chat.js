@@ -61,11 +61,11 @@ class ChatView extends Component {
     });
   }
 
-  componentWillUnmount() {
-    this.socket.emit('disconnect', {
-      senderId: this.state.userId,
-    });
-  }
+  // componentWillUnmount() {
+  //   this.socket.emit('disconnect', {
+  //     senderId: this.state.userId,
+  //   });
+  // }
 
   submitChatMessage = () => {
     const newMessage = {

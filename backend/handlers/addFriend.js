@@ -9,8 +9,12 @@ module.exports = async function addFriend(req) {
               ),
         ).length > 0;
             if (isFriendExist) {
-              console.log('You already have this user as a friend'); 
-            } else {
+              console.log('You already have this user as a friend');
+            } 
+            else if(req.userOne == req.userTwo ){
+              console.log("You can't add yourself as a friend :(");
+            }
+            else {
               User.findById(req.userTwo).then(
                 (friend) => {
                   
