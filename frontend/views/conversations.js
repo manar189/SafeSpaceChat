@@ -51,7 +51,9 @@ class ConversationsView extends Component {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.toggle()} style={{flexDirection:"row", paddingLeft: 10}}>
+        <TouchableOpacity  style={{flexDirection:"row", paddingLeft: 10}}
+        onPress={() => {
+          this.state.navigation.navigate('AddFriend')}}>
           <EvilIcons name="plus" size={40} color="white" />
         </TouchableOpacity>
       ),

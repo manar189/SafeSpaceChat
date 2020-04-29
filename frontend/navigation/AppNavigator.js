@@ -8,8 +8,21 @@ import ConversationView from '../views/conversations';
 import ChatView from '../views/chat';
 import AddFriend from '../views/addFriend';
 import SupervisionView from '../views/supervisions';
+import SuperviseUser from '../views/superviseUser';
 
 import supervisionsStyles from '../styles/supervisions';
+
+function getTabBarVisible(route) {
+  const routeName = route.state
+    ?  route.state.routes[route.state.index].name
+    : route.params?.screen || 'Supervision' || 'ConversationView';
+
+  if (routeName === 'SuperviseUser'|| routeName === 'ChatView' || routeName == 'AddFriend') {
+    return false;
+  }
+  
+  return true;
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -23,22 +36,34 @@ const Tab = createBottomTabNavigator();
       <Tab.Screen
           name="ConversationView"
           component={MainStackNavigator}
-          options={{
+          options={({ route }) => ({
+            tabBarVisible: getTabBarVisible(route), 
+            tabBarIcon: ({ color}) => (
+              <MaterialIcons name="home"  style ={supervisionsStyles.tabBarIcons}color={color} size={30} />
+            ),
             tabBarLabel: '',
-          tabBarIcon: ({ color}) => (
-            <MaterialIcons name="home"  style ={supervisionsStyles.tabBarIcons}color={color} size={30} />
-          ),
-          }}
+          })}
+          
+          // options={{
+          //   
+         
+          // }}
         />
         <Tab.Screen
           name="Supervision"
           component={SuperviseStack}
-          options={{
-            tabBarLabel: '',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="supervisor-account"  style={supervisionsStyles.tabBarIcons} color={color} size={30} />
-          ),
-          }}
+          options={({ route }) => ({
+            tabBarVisible: getTabBarVisible(route),
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="supervisor-account"  style={supervisionsStyles.tabBarIcons} color={color} size={30} />
+            ),
+          tabBarLabel: '',
+         })}
+          // options={{
+          //   tabBarLabel: '',
+            
+         
+          // }}
         />
     </Tab.Navigator>
     </NavigationContainer>
@@ -80,6 +105,9 @@ function MainStackNavigator() {
           component={AddFriend}
           options={{ title: 'Lägg till kontakt' }}
         />
+       
+        
+
       </Stack.Navigator>
     
   );
@@ -106,6 +134,13 @@ function SuperviseStack() {
           component={SupervisionView}
           options={{ title: 'Övervaka' }}
         />
+
+<Stack.Screen 
+        name="SuperviseUser"
+        component = {SuperviseUser}
+        options={{title: 'Kalle Kula', tabBarVisible: false,}}
+        />
+        
     </Stack.Navigator>
   )
 }

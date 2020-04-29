@@ -90,7 +90,10 @@ export default class AddFriend extends Component {
              <BarCodeScanner 
              onBarCodeScanned = {scanned ? undefined : this.handleBarCodeScanned}
              style = {StyleSheet.absoluteFillObject}
-             />}  
+             />} 
+             {!this.state.camera && 
+             <Text>HEJJJJ</Text>} 
+             
           </View>
           <View style={addFriendStyles.switch}>
             <EvilIcons name="image" size={50} color={colorCodeIcon} />
