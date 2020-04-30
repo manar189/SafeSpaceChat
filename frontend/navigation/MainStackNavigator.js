@@ -11,6 +11,9 @@ import Start from '../views/start';
 import Help from '../views/help';
 import Scan from '../views/signInScan';
 import ScanRegister from '../views/scanRegister';
+import Supervisions from '../views/supervisions';
+import SuperviseUser from '../views/superviseUser';
+
 
 const Stack = createStackNavigator();
 
@@ -49,6 +52,21 @@ function MainStackNavigator() {
           component={ConversationView}
           options={{
             title: 'SafeSpace',
+          }}
+        />
+
+        <Stack.Screen
+          name="Supervisions"
+          component={Supervisions}
+          options={{
+            title: 'Övervaka',
+          }}
+        />
+        <Stack.Screen
+          name="SuperviseUser"
+          component={SuperviseUser}
+          options={{
+            title: 'Övervaka',
           }}
         />
 

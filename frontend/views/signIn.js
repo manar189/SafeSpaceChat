@@ -45,26 +45,23 @@ export default class SignIn extends Component {
 
   async signIn() {
     this.authUser();
-    
+
     const req = {
       email: this.state.email,
-      password: this.state.password
-    }
+      password: this.state.password,
+    };
 
     const loginResult = await loginFunc(req);
 
-    if (loginResult.status == 'error'){
-      
+    if (loginResult.status == 'error') {
       console.log(loginResult.error);
-    }
-    else if (authenticated) {
+    } else if (authenticated) {
       console.log('Signing in...');
 
       this.setState({
         userId: loginResult.data.userId,
-        isSupervisor: loginResult.data.isSupervisor
-      })
-
+        isSupervisor: loginResult.data.isSupervisor,
+      });
 
       this.props.navigation.navigate('Conversation', {
         userId: this.state.userId,
@@ -122,7 +119,6 @@ export default class SignIn extends Component {
             style={styles.forgottenPsw}
             onPress={() => this.resetPassword()}
           >
-            {' '}
             Glömt lösenord?
           </Text>
         </TouchableOpacity>

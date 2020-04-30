@@ -45,7 +45,7 @@ class ConversationsView extends Component {
     const loadedFriends = await loadFriends(this.state.userId);
     console.log('loadedFriends in conversation: ' + loadedFriends);
     if (!loadedFriends.data) {
-      this.setState({ error: 'Skrev meddelande här' });
+      console.log('Inga vänner');
     } else {
       this.setState({ conversations: loadedFriends.data });
     }
@@ -78,40 +78,57 @@ class ConversationsView extends Component {
     this.setHeaderOptions();
 
     return (
-      <FlatList
-        style={conversationStyles.container}
-        contentContainerStyle={conversationStyles.contentContainer}
-        data={this.state.conversations}
-        keyExtractor={(conversation, index) =>
-          conversation.conversationId.toString()
-        }
-        renderItem={({ item }) => (
-          <OptionButton
-            item={item}
-            func={() => {
-              this.state.navigation.navigate('ChatView', {
-                userId: this.state.userId,
-                conversationId: item.conversationId,
-                userName: item.label,
-                receiverId: item.userId,
-              });
-              console.log(item.conversationId);
-            }}
-          />
-        )}
-        ItemSeparatorComponent={() => {
-          return <View style={conversationStyles.separator} />;
-        }}
-        ListHeaderComponent={
-          <View style={conversationStyles.searchConvBox}>
-            <TextInput
-              style={conversationStyles.searchConv}
-              placeholder={'Sök...'}
+      <View style={conversationStyles.list}>
+        <FlatList
+          style={conversationStyles.container}
+          contentContainerStyle={conversationStyles.contentContainer}
+          data={this.state.conversations}
+          keyExtractor={(conversation, index) =>
+            conversation.conversationId.toString()
+          }
+          renderItem={({ item }) => (
+            <OptionButton
+              item={item}
+              func={() => {
+                this.state.navigation.navigate('ChatView', {
+                  userId: this.state.userId,
+                  conversationId: item.conversationId,
+                  userName: item.label,
+                  receiverId: item.userId,
+                });
+                console.log(item.conversationId);
+              }}
             />
-          </View>
-        }
-      />
-    );
+          )}
+          ItemSeparatorComponent={() => {
+            return <View style={conversationStyles.separator} />;
+          }}
+          ListHeaderComponent={
+            <View style={conversationStyles.searchConvBox}>
+              <TextInput
+                style={conversationStyles.searchConv}
+                placeholder={'Sök...'}
+              />
+            </View>
+          }
+        />
+
+        <TouchableOpacity style={conversationStyles.conversationsButton} onPress={() => {
+          this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
+        }}>
+          <EvilIcons name="user" size={40} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={conversationStyles.supervisonsButton} onPress={() => {
+          this.state.navigation.navigate('Supervisions', {
+            userId: this.state.userId,
+          })
+        }}>
+          <EvilIcons name="user" size={40} color="Black" />
+        </TouchableOpacity>
+
+      </View>);
+
   }
 }
 
