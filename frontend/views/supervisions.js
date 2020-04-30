@@ -47,7 +47,10 @@ class SupervisionsView extends Component {
             headerRight: () => (
                 <TouchableOpacity
                     style={conversationStyles.addFriendButton}
-                    onPress={() => this.state.navigation.navigate('superviseNewQR')} // Här kan man skicka med props (ex. userId) om det behövs, se andra filer
+                    
+                    onPress={() => this.state.navigation.navigate('superviseNewQR',{
+                        userId: this.state.userId,
+                    })} // Här kan man skicka med props (ex. userId) om det behövs, se andra filer
                 >
                     <FontAwesome name="child" size={40} color="white" />
                 </TouchableOpacity>

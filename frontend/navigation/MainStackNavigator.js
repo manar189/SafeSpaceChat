@@ -14,6 +14,7 @@ import ScanRegister from '../views/scanRegister';
 import Supervisions from '../views/supervisions';
 import SuperviseUser from '../views/superviseUser';
 import superviseNewQR from '../views/superviseNewQr';
+import superviseSignInQR from '../views/superviseSignInQr';
 
 
 
@@ -76,6 +77,14 @@ function MainStackNavigator() {
           component={superviseNewQR}
           options={{
             title: 'Skapa nytt konto',
+          }}
+        />
+
+        <Stack.Screen
+          name="superviseSignInQR"
+          component={superviseSignInQR}
+          options={{
+            title: 'Logga in kopplat konto',
           }}
         />
 

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import { TouchableOpacity, RectButton } from 'react-native-gesture-handler';
 import { EvilIcons, FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import conversationStyles from '../styles/conversations';
+import { QRCode } from 'react-native-custom-qr-codes-expo';
 
+import conversationStyles from '../styles/conversations';
 import superviseUser from '../connections/superviseUser';
 
 class SuperviseUser extends Component {
@@ -39,7 +40,11 @@ class SuperviseUser extends Component {
 
             headerRight: () => (
                 <TouchableOpacity
-                    style={conversationStyles.addFriendButton}>
+                    style={conversationStyles.addFriendButton}
+                    onPress={() => this.state.navigation.navigate('superviseSignInQR',{
+                        userId: this.state.supervisedUserId,
+                        name: this.state.supervisedUserName,
+                    })}>
                     <FontAwesome name="child" size={40} color="white" />
                 </TouchableOpacity>
             ),
