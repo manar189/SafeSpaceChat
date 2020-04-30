@@ -13,12 +13,9 @@ import Scan from '../views/signInScan';
 import ScanRegister from '../views/scanRegister';
 import Supervisions from '../views/supervisions';
 import SuperviseUser from '../views/superviseUser';
-<<<<<<< HEAD
 import superviseNewQR from '../views/superviseNewQr';
 import superviseSignInQR from '../views/superviseSignInQr';
-=======
 import LogInScan from '../views/logInScan';
->>>>>>> loginScan
 
 
 
