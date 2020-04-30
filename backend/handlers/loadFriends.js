@@ -29,13 +29,28 @@ module.exports = async function loadFriends(userId, res) {
           let name;
           let id;
           let displayMessage;
+          let supervised = false;
 
           if (conversation.userOne._id.equals(userId)) {
             name = conversation.userTwo.fullName;
             id = conversation.userTwo._id;
+
+            conversation.userOne.supervisions.forEach((s) => {
+              if(id.equals(s)){
+                supervised = true;
+              }
+            })
+
           } else if (conversation.userTwo._id.equals(userId)) {
             name = conversation.userOne.fullName;
             id = conversation.userOne._id;
+
+            conversation.userTwo.supervisions.forEach((s) => {
+              if(id.equals(s)){
+                supervised = true;
+              }
+            })
+
           } else {
             console.log('Something went wrong in /handlers/loadFriend');
           }
@@ -47,11 +62,14 @@ module.exports = async function loadFriends(userId, res) {
             displayMessage = 'Skriv ett meddelande...';
           }
 
+
+
           return {
             label: name,
             userId: id,
             conversationId: conversation._id,
             msg: displayMessage,
+            supervised: supervised,
           };
         }),
       });

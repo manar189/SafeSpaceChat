@@ -8,7 +8,7 @@ import * as Permissions from 'expo-permissions';
 import styles from '../styles/signIn.scss';
 import buttonStyle from '../styles/button.scss';
 
-import loginScan from '../connections/loginScan';
+import loginInfo from '../connections/loginInfo';
 
 class SignInScan extends Component {
   constructor(props) {
@@ -39,19 +39,21 @@ class SignInScan extends Component {
       scanned: true,
     });
 
-    const scanResult = await loginScan(data);
+    const scanResult = await loginInfo(data);
     console.log(scanResult);
 
-    if (scanResult.data.createUser) {
-      // Navigera till att skapa kopplad användare
-      this.state.navigation.navigate('ScanRegister', { supervisorId: '' });
+    if(scanResult.status === 'succes'){
+      if (scanResult.data.createUser) {
+        // Navigera till att skapa kopplad användare
+        this.state.navigation.navigate('ScanRegister', { supervisorId: scanResult.data.supervisorId });
+      }
+      else {
+        // Navigera till kopplad användares konversationer
+        this.state.navigation.navigate('LogInScan', { userId: scanResult.data.userId });
+      }
     }
-    else {
-      // Navigera till kopplad användares konversationer
-      this.state.navigation.navigate('LogInScan', { userId: scanResult.data.userId });
-    }
-
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   render() {

@@ -48,7 +48,7 @@ module.exports = async function superviseUser(userId, res) {
                         nMessages: conversation.messages.length,
                         messageDate: date
                     })
-                })[0]
+                })
             })
         })
         .catch(err => console.log('Error fetching data in superviseUser ', err));

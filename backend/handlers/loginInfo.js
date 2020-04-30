@@ -1,7 +1,7 @@
 const User = require("../models/userModel")
 
-module.exports = async function loginScan(req, res) {
-    await User.findById(req.userId)
+module.exports = async function loginInfo(userId, res) {
+    await User.findById(userId)
     .then((user)=>{
         if(!user){
           return res.status(400).json({
@@ -9,17 +9,24 @@ module.exports = async function loginScan(req, res) {
             error: 'Något fel med QR-koden',
           });
         }
-
-        if(user.password === req.password){
+        // Create new connected user
+        if(user.isSupervisor){
             res.status(200).json({
                 status: 'succes',
+                data: { 
+                  createUser: true,
+                  supervisorId: userId
+                }
             });
         }
         // Sign into existing connected user
         else{
-            res.status(400).json({
-                status: 'error',
-                error: 'Fel lösenord'
+            res.status(200).json({
+                status: 'succes',
+                data: { 
+                  createUser: false,
+                  userId: userId
+                }
             });
         }
     })

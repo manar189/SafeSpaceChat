@@ -37,13 +37,18 @@ class ConversationsView extends Component {
       navigation: this.props.navigation.navigation,
       conversations: [],
       error: '',
+      isSupervisor: routeParams.isSupervisor
     };
   }
 
   async componentDidMount() {
     console.log('user id in conversation: ' + this.state.userId);
     const loadedFriends = await loadFriends(this.state.userId);
-    console.log('loadedFriends in conversation: ' + loadedFriends);
+    
+    loadedFriends.data.forEach(d => {
+      console.log(d);
+    })
+    
     if (!loadedFriends.data) {
       console.log('Inga vänner');
     } else {

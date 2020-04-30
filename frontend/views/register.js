@@ -26,7 +26,7 @@ export default class Register extends Component {
 
       error: '',
       userId: '',
-      isSupervisor: '',
+      isSupervisor: true,
     };
   }
 
@@ -54,7 +54,7 @@ export default class Register extends Component {
         fullName: this.state.userName,
         email: this.state.email,
         password: this.state.password,
-        isSupervisor: true,
+        isSupervisor: this.state.isSupervisor
       };
 
       const res = await createUser(req);
@@ -62,8 +62,7 @@ export default class Register extends Component {
       this.setState({
         email: '',
         password: '',
-        userId: res.data.userId,
-        isSupervisor: res.data.isSupervisor,
+        userId: res.data.userId
       });
 
       this.props.navigation.navigate('Conversation', {

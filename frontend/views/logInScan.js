@@ -4,6 +4,8 @@ import { TextInput, TouchableOpacity, Text, View } from 'react-native';
 import styles from '../styles/signIn';
 import buttonStyle from '../styles/button';
 
+import loginScan from '../connections/loginScan';
+
 var authenticated = false;
 
 class LogInScan extends Component {
@@ -15,7 +17,8 @@ class LogInScan extends Component {
             navigation: this.props.navigation.navigation,
             userId: routeParams.userId,
             error: '',
-            password: ''
+            password: '',
+            isSupervisor: false
         };
     }
 
@@ -31,13 +34,26 @@ class LogInScan extends Component {
         }
     }
 
-    createProfile() {
+    async checkPassword() {
         this.authInput();
 
         if (authenticated) {
-            console.log('Signing in...');
-            this.state.navigation.navigate('Conversation');
 
+            const req = {
+                userId: this.state.userId,
+                password: this.state.password
+            }
+
+            const res = await loginScan(req);
+            console.log(res);
+
+            if(res.status == 'succes'){
+              console.log('Signing in...');
+              this.state.navigation.navigate('Conversation', {
+                 userId: this.state.userId, isSupervisor: this.state.isSupervisor 
+              });
+            }
+      
             this.setState({
                 userName: '',
                 password: ''
@@ -68,7 +84,7 @@ class LogInScan extends Component {
                 />
                 <TouchableOpacity
                     style={buttonStyle.button}
-                    onPress={() => this.state.navigation.navigate('Conversation', { userId: this.state.userId })}
+                    onPress={() => this.checkPassword()}
                 >
                     <Text style={[buttonStyle.text, buttonStyle.ok]}>Logga in</Text>
                 </TouchableOpacity>
