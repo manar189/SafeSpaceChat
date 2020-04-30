@@ -15,16 +15,17 @@ class ScanRegister extends Component {
       navigation: this.props.navigation.navigation,
       userName: '',
       error: '',
+      password: ''
     };
   }
 
   authInput() {
-    if (this.state.userName != '') {
+    if (this.state.userName != '' && this.state.password != '') {
       this.setState({ error: '' });
       authenticated = true;
     } else {
       this.setState({
-        error: 'Fyll i namn',
+        error: 'Fyll i namn och/eller lösenord',
       });
       authenticated = false;
     }
@@ -39,11 +40,13 @@ class ScanRegister extends Component {
 
       this.setState({
         userName: '',
+        password: ''
       });
     } else {
       console.log('Could not create profile ');
       this.setState({
         userName: '',
+        password: ''
       });
     }
   }
@@ -56,11 +59,22 @@ class ScanRegister extends Component {
         <Text style={[styles.textLabel, styles.margin]}>Namn</Text>
         <TextInput
           ref={(input) => {
-            this.pswInput = input;
+            this.nameInput = input;
           }}
           style={[styles.textInput]}
           onChangeText={(userName) => this.setState({ userName })}
           placeholder={'Lisa Avlång'}
+        />
+
+        <Text style={[styles.textLabel, styles.margin]}>Lösenord</Text>
+        <TextInput
+          ref={(input) => {
+            this.pswInput = input;
+          }}
+          style={[styles.textInput]}
+          onChangeText={(password) => this.setState({ password })}
+          placeholder={'**********'}
+          secureTextEntry={true}
         />
         <TouchableOpacity
           style={buttonStyle.button}
