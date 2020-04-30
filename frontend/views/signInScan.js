@@ -48,7 +48,7 @@ class SignInScan extends Component {
     }
     else {
       // Navigera till kopplad användares konversationer
-      this.state.navigation.navigate('logInScan', { userId: scanResult.data.userId });
+      this.state.navigation.navigate('LogInScan', { userId: scanResult.data.userId });
     }
 
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
