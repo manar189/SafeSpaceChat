@@ -125,9 +125,15 @@ function OptionButton({ item, func }) {
 				<View style={conversationStyles.optionIconContainer}>
 					<Entypo name={item.icon} size={40} color="#4499a9" />
 				</View>
-				<View style={conversationStyles.optionTextContainer}>
-					<Text style={conversationStyles.optionText}>{item.label}</Text>
-					<Text style={conversationStyles.messageText}>{item.msg}</Text>
+				<View style={[ conversationStyles.optionTextContainer, conversationStyles.isSupervised ]}>
+					<View>
+						<Text style={conversationStyles.optionText}>{item.label}</Text>
+						<Text style={conversationStyles.messageText}>{item.msg}</Text>
+					</View>
+					<Image
+						source={require('../img/Eye/EyeLight.png')}
+						style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
+					/>
 				</View>
 			</View>
 			<View style={conversationStyles.parentMode}>
