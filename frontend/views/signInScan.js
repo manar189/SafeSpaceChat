@@ -8,6 +8,8 @@ import * as Permissions from 'expo-permissions';
 import styles from '../styles/signIn.scss';
 import buttonStyle from '../styles/button.scss';
 
+import loginInfo from '../connections/loginInfo';
+
 class SignInScan extends Component {
   constructor(props) {
     super(props);
@@ -32,20 +34,42 @@ class SignInScan extends Component {
     });
   };
 
+  handleBarCodeScanned = async ({ type, data }) => {
+    this.setState({
+      scanned: true,
+    });
+
+    const scanResult = await loginInfo(data);
+    console.log(scanResult);
+
+    if(scanResult.status === 'succes'){
+      if (scanResult.data.createUser) {
+        // Navigera till att skapa kopplad användare
+        this.state.navigation.navigate('ScanRegister', { supervisorId: scanResult.data.supervisorId });
+      }
+      else {
+        // Navigera till kopplad användares konversationer
+        this.state.navigation.navigate('LogInScan', { userId: scanResult.data.userId });
+      }
+    }
+    
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+
   render() {
-    const {hasCameraPermission, scanned} = this.state;
+    const { hasCameraPermission, scanned } = this.state;
 
     var instructions = '';
 
-    if(this.state.camera){
+    if (this.state.camera) {
       instructions = 'Skanna en QR-kod';
     }
 
-    if(hasCameraPermission === null){
+    if (hasCameraPermission === null) {
       return <Text> Requesting for camera permission </Text>;
     }
 
-    if(hasCameraPermission === false){
+    if (hasCameraPermission === false) {
       return <Text> No access to camera </Text>;
     }
 
@@ -59,14 +83,14 @@ class SignInScan extends Component {
            * Här ska kamera läggas in *
            * 
            * *************************/}
-        {this.state.camera && (
-          <BarCodeScanner
-          onBarCodeScanned={
-            scanned ? undefined : this.handleBarCodeScanned
-          }
-          style={StyleSheet.absoluteFillObject}
-          />
-        )}
+          {this.state.camera && (
+            <BarCodeScanner
+              onBarCodeScanned={
+                scanned ? undefined : this.handleBarCodeScanned
+              }
+              style={StyleSheet.absoluteFillObject}
+            />
+          )}
         </TouchableOpacity>
         <Text style={styles.instructions}>
           {'Skanna QR-kod för att starta konto'}
@@ -74,12 +98,6 @@ class SignInScan extends Component {
       </View>
     );
   }
-  handleBarCodeScanned = ({ type, data }) => {
-    this.setState({
-      scanned: true,
-    });
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 }
 
 export default function (navigation) {
