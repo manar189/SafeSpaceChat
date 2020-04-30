@@ -114,11 +114,9 @@ class ConversationsView extends Component {
           }
         />
         <View style={footerStyle.footerBox}>
-          <TouchableOpacity style={[footerStyle.conversationsButton, footerStyle.active]} onPress={() => {
-            this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
-          }}>
+          <View style={[footerStyle.conversationsButton, footerStyle.active]}>
             <EvilIcons name="user" size={40} color="#adadad" style={footerStyle.icon} />
-          </TouchableOpacity>
+          </View>
 
           <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.inactive]} onPress={() => {
             this.state.navigation.navigate('Supervisions', {
@@ -128,7 +126,7 @@ class ConversationsView extends Component {
             <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
           </TouchableOpacity>
         </View>
-      </View>);
+      </View >);
 
   }
 }

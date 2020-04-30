@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 import supervisionStyles from '../styles/supervisions';
 import { TouchableOpacity, RectButton } from 'react-native-gesture-handler';
-import { EvilIcons, FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { EvilIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, FlatList } from 'react-native';
 import conversationStyles from '../styles/conversations';
 import footerStyle from '../styles/footer'
+import superviseStyle from '../styles/supervise'
 
 import loadSupervision from '../connections/loadSupervisions';
 
@@ -13,7 +14,6 @@ class SupervisionsView extends Component {
     constructor(props) {
         super(props);
         var routeParams = this.props.navigation.route.params;
-        console.log(`userId in supervisions: ${routeParams.userId}`);
 
         this.state = {
             navigation: this.props.navigation.navigation,
@@ -58,6 +58,9 @@ class SupervisionsView extends Component {
                     style={conversationStyles.container}
                     contentContainerStyle={conversationStyles.contentContainer}
                     data={this.state.supervisions}
+                    keyExtractor={(supervised, index) =>
+                        supervised.userId.toString()
+                    }
                     renderItem={({ item }) => (
                         <OptionButton
                             item={item}
@@ -76,21 +79,20 @@ class SupervisionsView extends Component {
                 />
 
                 <View style={footerStyle.footerBox}>
-                    <TouchableOpacity style={[footerStyle.conversationsButton, footerStyle.inactive]} onPress={() => {
-                        this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
-                    }}>
-                        <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
-                    </TouchableOpacity>
+                    <View style={[footerStyle.conversationsButton, footerStyle.inactive]}>
+                        <TouchableOpacity style={footerStyle.inactiveButton} onPress={() => {
+                            this.state.navigation.navigate('Conversation', {
+                                userId: this.state.userId,
+                            })
+                        }}>
+                            <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
+                        </TouchableOpacity></View>
 
-                    <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.active]} onPress={() => {
-                        this.state.navigation.navigate('Supervisions', {
-                            userId: this.state.userId,
-                        })
-                    }}>
+                    <View style={[footerStyle.supervisionsButton, footerStyle.active]} >
                         <EvilIcons name="user" size={40} color="#adadad" style={footerStyle.icon} />
-                    </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            </View >
         );
 
     }
@@ -99,20 +101,14 @@ class SupervisionsView extends Component {
 
 function OptionButton({ item, func }) {
     return (
-        <RectButton style={conversationStyles.option} onPress={func}>
+        <RectButton style={superviseStyle.option} onPress={func}>
             <View style={{ flexDirection: 'row' }}>
 
                 <View style={conversationStyles.optionTextContainer}>
-                    <Text style={supervisionStyles.optionText}>{item.fullName}</Text>
+                    <Text style={superviseStyle.optionText}>{item.fullName}</Text>
                 </View>
             </View>
-            <View style={conversationStyles.parentMode}>
-                <MaterialCommunityIcons
-                    //name={parentIcon}
-                    size={30}
-                    style={conversationStyles.parentChild}
-                />
-            </View>
+
         </RectButton>
     );
 }

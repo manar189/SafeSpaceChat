@@ -10,6 +10,7 @@
     width: 50%;
     display: flex;
     align-items: center;
+    align-self: flex-start;
 
 }
 
@@ -17,6 +18,12 @@
     width:50%;
     display: flex;
     align-items: center;
+    align-self: flex-end;
+}
+
+.inactiveButton{
+  padding-left: 35%;
+  padding-right: 35%;
 }
 
 .active{
@@ -30,4 +37,7 @@
 .icon{
     padding-top: 9;
     padding-bottom: 9;
+
+    padding-left: 10;
+    padding-right: 10;
 }
