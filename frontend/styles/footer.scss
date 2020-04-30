@@ -1,0 +1,33 @@
+@import 'colors';
+
+.footerBox{
+    background-color: $footerInactive;
+    display: flex;
+    flex-direction: row;
+}
+
+.conversationsButton{
+    width: 50%;
+    display: flex;
+    align-items: center;
+
+}
+
+.supervisionsButton{
+    width:50%;
+    display: flex;
+    align-items: center;
+}
+
+.active{
+    background-color: $footerActive;
+}
+
+.inactive{
+    background-color: $footerInactive
+}
+
+.icon{
+    padding-top: 9;
+    padding-bottom: 9;
+}

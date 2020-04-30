@@ -20,6 +20,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
 import conversationStyles from '../styles/conversations';
+import footerStyle from '../styles/footer';
 import loadFriends from '../connections/loadFriends';
 
 /*
@@ -112,21 +113,21 @@ class ConversationsView extends Component {
             </View>
           }
         />
+        <View style={footerStyle.footerBox}>
+          <TouchableOpacity style={[footerStyle.conversationsButton, footerStyle.active]} onPress={() => {
+            this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
+          }}>
+            <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={conversationStyles.conversationsButton} onPress={() => {
-          this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
-        }}>
-          <EvilIcons name="user" size={40} color="white" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={conversationStyles.supervisonsButton} onPress={() => {
-          this.state.navigation.navigate('Supervisions', {
-            userId: this.state.userId,
-          })
-        }}>
-          <EvilIcons name="user" size={40} color="Black" />
-        </TouchableOpacity>
-
+          <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.inactive]} onPress={() => {
+            this.state.navigation.navigate('Supervisions', {
+              userId: this.state.userId,
+            })
+          }}>
+            <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
+          </TouchableOpacity>
+        </View>
       </View>);
 
   }
