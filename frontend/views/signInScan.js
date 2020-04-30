@@ -8,6 +8,8 @@ import * as Permissions from 'expo-permissions';
 import styles from '../styles/signIn.scss';
 import buttonStyle from '../styles/button.scss';
 
+import loginScan from '../connections/loginScan';
+
 class SignInScan extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +32,24 @@ class SignInScan extends Component {
     this.setState({
       hasCameraPermission: status === 'granted',
     });
+  };
+
+  handleBarCodeScanned = async ({ type, data }) => {
+    this.setState({
+      scanned: true,
+    });
+
+    const scanResult = await loginScan(data);
+    console.log(scanResult);
+
+    if(scanResult.data.createUser){
+      // Navigera till att skapa kopplad användare
+    }
+    else{
+      // Navigera till kopplad användares konversationer
+    }
+
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   render() {
@@ -74,12 +94,6 @@ class SignInScan extends Component {
       </View>
     );
   }
-  handleBarCodeScanned = ({ type, data }) => {
-    this.setState({
-      scanned: true,
-    });
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 }
 
 export default function (navigation) {
