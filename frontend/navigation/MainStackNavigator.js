@@ -13,6 +13,8 @@ import Scan from '../views/signInScan';
 import ScanRegister from '../views/scanRegister';
 import Supervisions from '../views/supervisions';
 import SuperviseUser from '../views/superviseUser';
+import superviseNewQR from '../views/superviseNewQr';
+
 
 
 const Stack = createStackNavigator();
@@ -67,6 +69,13 @@ function MainStackNavigator() {
           component={SuperviseUser}
           options={{
             title: 'Övervaka',
+          }}
+        />
+        <Stack.Screen
+          name="superviseNewQR"
+          component={superviseNewQR}
+          options={{
+            title: 'Skapa nytt konto',
           }}
         />
 
