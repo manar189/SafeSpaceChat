@@ -9,13 +9,16 @@ var authenticated = false;
 class ScanRegister extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    var routeParams = this.props.navigation.route.params;
 
     this.state = {
       navigation: this.props.navigation.navigation,
+      supervisorId: routeParams.supervisorId,
       userName: '',
       error: '',
-      password: ''
+      password: '',
+      userId: '',
+      isSupervisor: false
     };
   }
 
@@ -36,7 +39,7 @@ class ScanRegister extends Component {
 
     if (authenticated) {
       console.log('Creating profile...');
-      this.state.navigation.navigate('Conversation');
+      this.state.navigation.navigate('Conversation', { userId: this.state.userId, isSupervisor: this.state.isSupervisor });
 
       this.setState({
         userName: '',

@@ -42,30 +42,32 @@ class SignInScan extends Component {
     const scanResult = await loginScan(data);
     console.log(scanResult);
 
-    if(scanResult.data.createUser){
+    if (scanResult.data.createUser) {
       // Navigera till att skapa kopplad användare
+      this.state.navigation.navigate('ScanRegister', { supervisorId: '' });
     }
-    else{
+    else {
       // Navigera till kopplad användares konversationer
+      this.state.navigation.navigate('logInScan', { userId: scanResult.data.userId });
     }
 
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   render() {
-    const {hasCameraPermission, scanned} = this.state;
+    const { hasCameraPermission, scanned } = this.state;
 
     var instructions = '';
 
-    if(this.state.camera){
+    if (this.state.camera) {
       instructions = 'Skanna en QR-kod';
     }
 
-    if(hasCameraPermission === null){
+    if (hasCameraPermission === null) {
       return <Text> Requesting for camera permission </Text>;
     }
 
-    if(hasCameraPermission === false){
+    if (hasCameraPermission === false) {
       return <Text> No access to camera </Text>;
     }
 
@@ -79,14 +81,14 @@ class SignInScan extends Component {
            * Här ska kamera läggas in *
            * 
            * *************************/}
-        {this.state.camera && (
-          <BarCodeScanner
-          onBarCodeScanned={
-            scanned ? undefined : this.handleBarCodeScanned
-          }
-          style={StyleSheet.absoluteFillObject}
-          />
-        )}
+          {this.state.camera && (
+            <BarCodeScanner
+              onBarCodeScanned={
+                scanned ? undefined : this.handleBarCodeScanned
+              }
+              style={StyleSheet.absoluteFillObject}
+            />
+          )}
         </TouchableOpacity>
         <Text style={styles.instructions}>
           {'Skanna QR-kod för att starta konto'}
