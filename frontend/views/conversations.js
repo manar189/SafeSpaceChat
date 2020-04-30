@@ -117,7 +117,7 @@ class ConversationsView extends Component {
           <TouchableOpacity style={[footerStyle.conversationsButton, footerStyle.active]} onPress={() => {
             this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
           }}>
-            <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
+            <EvilIcons name="user" size={40} color="#adadad" style={footerStyle.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.inactive]} onPress={() => {

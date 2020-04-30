@@ -5,6 +5,7 @@ import { TouchableOpacity, RectButton } from 'react-native-gesture-handler';
 import { EvilIcons, FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import conversationStyles from '../styles/conversations';
+import footerStyle from '../styles/footer'
 
 import loadSupervision from '../connections/loadSupervisions';
 
@@ -15,11 +16,9 @@ class SupervisionsView extends Component {
         console.log(`userId in supervisions: ${routeParams.userId}`);
 
         this.state = {
-
             navigation: this.props.navigation.navigation,
             userId: routeParams.userId,
             supervisions: [],
-
         }
     }
 
@@ -39,15 +38,10 @@ class SupervisionsView extends Component {
 
     setHeaderOptions() {
         this.state.navigation.setOptions({
-            //   headerLeft: () => (
-            //     <TouchableOpacity style={conversationStyles.profileButton}>
-            //       <EvilIcons name="user" size={40} color="white" />
-            //     </TouchableOpacity>
-            //   ),
+
             headerRight: () => (
                 <TouchableOpacity
                     style={conversationStyles.addFriendButton}
-
                 >
                     <FontAwesome name="child" size={40} color="white" />
                 </TouchableOpacity>
@@ -81,19 +75,21 @@ class SupervisionsView extends Component {
 
                 />
 
-                <TouchableOpacity style={conversationStyles.profileButton} onPress={() => {
-                    this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
-                }}>
-                    <EvilIcons name="user" size={40} color="Black" />
-                </TouchableOpacity>
+                <View style={footerStyle.footerBox}>
+                    <TouchableOpacity style={[footerStyle.conversationsButton, footerStyle.inactive]} onPress={() => {
+                        this.state.navigation.navigate('Conversation', { userId: this.state.userId, })
+                    }}>
+                        <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={conversationStyles.profileButton} onPress={() => {
-                    this.state.navigation.navigate('Supervisions', {
-                        userId: this.state.userId,
-                    })
-                }}>
-                    <EvilIcons name="user" size={40} color="white" />
-                </TouchableOpacity>
+                    <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.active]} onPress={() => {
+                        this.state.navigation.navigate('Supervisions', {
+                            userId: this.state.userId,
+                        })
+                    }}>
+                        <EvilIcons name="user" size={40} color="#adadad" style={footerStyle.icon} />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
 
@@ -124,14 +120,3 @@ function OptionButton({ item, func }) {
 export default function (navigation) {
     return <SupervisionsView navigation={navigation} />;
 }
-
-const TEMPDATA = [
-    {
-        icon: 'circle',
-        label: 'Kalle Kula',
-        msg: 'Tja vgd',
-        userId: '5e843ddbbd8a99081cd3f613',
-        conversationId: '5e68c508c18e2a00ee6bf0f8',
-    },
-
-];
