@@ -53,12 +53,12 @@ class SuperviseUser extends Component {
 
     render() {
         this.setHeaderOptions();
-
+        this.state.messageDate = this.state.messageDate.replace(/[^0-9:-]/g," ");
         return (
             <View style={{ flexDirection: 'row' }}>
                 <View style={conversationStyles.optionTextContainer}>
                     <Text style={conversationStyles.optionText}>{this.state.supervisedUserName}</Text>
-                    <Text style={conversationStyles.messageText}>{'Antal meddelanden: ' + this.state.nMessages}{'Senast meddelande: ' + this.state.messageDate}</Text>
+                    <Text style={conversationStyles.messageText}>{'Antal meddelanden: ' + this.state.nMessages + "\n"}{'Senast meddelande: ' + this.state.messageDate}</Text>
                 </View>
             </View>
 

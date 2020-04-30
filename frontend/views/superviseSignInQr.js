@@ -53,16 +53,6 @@ class SuperviseSignInQR extends Component {
             </View>
         );
     }
-
-    handleBarCodeScanned = ({ type, data }) => {
-        this.setState({
-            scanned: true,
-        });
-
-        if (addFriend({ userOne: this.state.userId, userTwo: data })) {
-            Alert.alert('Du har lagt till en ny kontakt');
-        }
-    };
 }
 export default function (navigation) {
     return <SuperviseSignInQR navigation={navigation} />;
