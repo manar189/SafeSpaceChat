@@ -3,8 +3,9 @@ import config from '../../backend/config';
 const serverURL = `http://${config.server.host}:${config.server.port}`;
 
 export default async function (req) {
-
-    await fetch(serverURL + `/addfriend`, {
+  let res;
+  await (
+    await fetch(serverURL + `/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -12,6 +13,11 @@ export default async function (req) {
       },
       body: JSON.stringify(req),
     })
-    .then(() => console.log(response))
-    .catch((err) => console.log('Error adding friend', err));
-};
+  )
+    .json()
+    .then((response) => {
+      res = response;
+    })
+    .catch((err) => console.log('Error logging in', err));
+  return res;
+}
