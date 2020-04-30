@@ -3,7 +3,7 @@ import { EvilIcons } from '@expo/vector-icons';
 
 import {
   Text,
-  View,
+  Image,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -89,8 +89,8 @@ export default class SignIn extends Component {
     return (
       <KeyboardAvoidingView style={styles.container}>
         {/* Keyboard avoiding view funkar ej, måste finnas ett sätt för alla komponenter att flytta sig när tangetbordet dyker upp!*/}
-        <EvilIcons name="sc-odnoklassniki" size={90} color="white" />
-        {/*Här ska det vara en fin logga  */}
+        <Image source={require('../img/Logo/SpaceLogga.png')} style={[{ width: 180, height: 80, resizeMode: 'contain' }]} />
+
         <Text style={styles.errorMsg}>{this.state.error}</Text>
         <Text style={styles.textLabel}>E-post</Text>
         <TextInput

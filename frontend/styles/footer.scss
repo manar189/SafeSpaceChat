@@ -14,6 +14,15 @@
 
 }
 
+.convIcon{
+    width: 50;
+    height: 50;
+}
+.supIcon{
+    width: 50;
+    height: 50;
+}
+
 .supervisionsButton{
     width:50%;
     display: flex;
@@ -24,7 +33,10 @@
 .inactiveButton{
   padding-left: 35%;
   padding-right: 35%;
+  display: flex;
+  align-items: center;
 }
+
 
 .active{
     background-color: $footerActive;
@@ -36,8 +48,13 @@
 
 .icon{
     padding-top: 9;
-    padding-bottom: 9;
+    padding-bottom: 4;
 
     padding-left: 10;
     padding-right: 10;
+}
+
+.iconPadding{
+    padding-top: 4;
+    padding-bottom: 4;
 }

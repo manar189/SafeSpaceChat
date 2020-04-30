@@ -51,7 +51,7 @@ function MainStackNavigator() {
           name="Conversation"
           component={ConversationView}
           options={{
-            title: 'SafeSpace',
+            title: 'Chattar',
           }}
         />
 

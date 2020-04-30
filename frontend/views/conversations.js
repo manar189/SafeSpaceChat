@@ -9,13 +9,7 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import {
-  View,
-  Text,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -29,131 +23,152 @@ import loadFriends from '../connections/loadFriends';
 */
 
 class ConversationsView extends Component {
-  constructor(props) {
-    super(props);
-    var routeParams = this.props.navigation.route.params;
+	constructor(props) {
+		super(props);
+		var routeParams = this.props.navigation.route.params;
 
-    this.state = {
-      userId: routeParams.userId,
-      navigation: this.props.navigation.navigation,
-      conversations: [],
-      error: '',
-    };
-  }
+		this.state = {
+			userId: routeParams.userId,
+			isSupervisor: routeParams.isSupervisor,
+			navigation: this.props.navigation.navigation,
+			conversations: [],
+			error: ''
+		};
+	}
 
-  async componentDidMount() {
-    console.log('user id in conversation: ' + this.state.userId);
-    const loadedFriends = await loadFriends(this.state.userId);
-    console.log('loadedFriends in conversation: ' + loadedFriends);
-    if (!loadedFriends.data) {
-      console.log('Inga vänner');
-    } else {
-      this.setState({ conversations: loadedFriends.data });
-    }
-  }
+	async componentDidMount() {
+		console.log('user id in conversation: ' + this.state.userId);
+		const loadedFriends = await loadFriends(this.state.userId);
+		console.log('loadedFriends in conversation: ' + loadedFriends);
 
-  setHeaderOptions() {
-    this.state.navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity style={conversationStyles.profileButton}>
-          <EvilIcons name="user" size={40} color="white" />
-        </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <TouchableOpacity
-          style={conversationStyles.addFriendButton}
-          onPress={() => {
-            this.state.navigation.navigate('AddFriend', {
-              userId: this.state.userId,
-            });
-            console.log('add friend');
-          }}
-        >
-          <EvilIcons name="plus" size={40} color="white" />
-        </TouchableOpacity>
-      ),
-    });
-  }
+		if (!loadedFriends.data) {
+			console.log('Inga vänner');
+		} else {
+			this.setState({ conversations: loadedFriends.data });
+		}
+	}
 
-  render() {
-    this.setHeaderOptions();
+	setHeaderOptions() {
+		this.state.navigation.setOptions({
+			headerLeft: () => (
+				<TouchableOpacity style={conversationStyles.profileButton}>
+					<EvilIcons name="user" size={40} color="white" />
+				</TouchableOpacity>
+			),
+			headerRight: () => (
+				<TouchableOpacity
+					style={conversationStyles.addFriendButton}
+					onPress={() => {
+						this.state.navigation.navigate('AddFriend', {
+							userId: this.state.userId
+						});
+						console.log('add friend');
+					}}
+				>
+					<EvilIcons name="plus" size={40} color="white" />
+				</TouchableOpacity>
+			)
+		});
+	}
 
-    return (
-      <View style={conversationStyles.list}>
-        <FlatList
-          style={conversationStyles.container}
-          contentContainerStyle={conversationStyles.contentContainer}
-          data={this.state.conversations}
-          keyExtractor={(conversation, index) =>
-            conversation.conversationId.toString()
-          }
-          renderItem={({ item }) => (
-            <OptionButton
-              item={item}
-              func={() => {
-                this.state.navigation.navigate('ChatView', {
-                  userId: this.state.userId,
-                  conversationId: item.conversationId,
-                  userName: item.label,
-                  receiverId: item.userId,
-                });
-                console.log(item.conversationId);
-              }}
-            />
-          )}
-          ItemSeparatorComponent={() => {
-            return <View style={conversationStyles.separator} />;
-          }}
-          ListHeaderComponent={
-            <View style={conversationStyles.searchConvBox}>
-              <TextInput
-                style={conversationStyles.searchConv}
-                placeholder={'Sök...'}
-              />
-            </View>
-          }
-        />
-        <View style={footerStyle.footerBox}>
-          <View style={[footerStyle.conversationsButton, footerStyle.active]}>
-            <EvilIcons name="user" size={40} color="#adadad" style={footerStyle.icon} />
-          </View>
+	render() {
+		this.setHeaderOptions();
 
-          <TouchableOpacity style={[footerStyle.supervisionsButton, footerStyle.inactive]} onPress={() => {
-            this.state.navigation.navigate('Supervisions', {
-              userId: this.state.userId,
-            })
-          }}>
-            <EvilIcons name="user" size={40} color="white" style={footerStyle.icon} />
-          </TouchableOpacity>
-        </View>
-      </View >);
-
-  }
+		return (
+			<View style={conversationStyles.list}>
+				<FlatList
+					style={conversationStyles.container}
+					contentContainerStyle={conversationStyles.contentContainer}
+					data={this.state.conversations}
+					keyExtractor={(conversation, index) => conversation.conversationId.toString()}
+					renderItem={({ item }) => (
+						<OptionButton
+							item={item}
+							func={() => {
+								this.state.navigation.navigate('ChatView', {
+									userId: this.state.userId,
+									conversationId: item.conversationId,
+									userName: item.label,
+									receiverId: item.userId
+								});
+								console.log(item.conversationId);
+							}}
+						/>
+					)}
+					ItemSeparatorComponent={() => {
+						return <View style={conversationStyles.separator} />;
+					}}
+					ListHeaderComponent={
+						<View style={conversationStyles.searchConvBox}>
+							<TextInput style={conversationStyles.searchConv} placeholder={'Sök...'} />
+						</View>
+					}
+				/>
+				<RenderFooter
+					isSupervisor={this.state.isSupervisor}
+					func={() => {
+						this.state.navigation.navigate('Supervisions', {
+							userId: this.state.userId
+						});
+					}}
+				/>
+			</View>
+		);
+	}
 }
 
 function OptionButton({ item, func }) {
-  return (
-    <RectButton style={conversationStyles.option} onPress={func}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={conversationStyles.optionIconContainer}>
-          <Entypo name={item.icon} size={40} color="#4499a9" />
-        </View>
-        <View style={conversationStyles.optionTextContainer}>
-          <Text style={conversationStyles.optionText}>{item.label}</Text>
-          <Text style={conversationStyles.messageText}>{item.msg}</Text>
-        </View>
-      </View>
-      <View style={conversationStyles.parentMode}>
-        <MaterialCommunityIcons
-          //name={parentIcon}
-          size={30}
-          style={conversationStyles.parentChild}
-        />
-      </View>
-    </RectButton>
-  );
+	console.log('item: ' + JSON.stringify(item));
+	return (
+		<RectButton style={conversationStyles.option} onPress={func}>
+			<View style={{ flexDirection: 'row' }}>
+				<View style={conversationStyles.optionIconContainer}>
+					<Entypo name={item.icon} size={40} color="#4499a9" />
+				</View>
+				<View style={conversationStyles.optionTextContainer}>
+					<Text style={conversationStyles.optionText}>{item.label}</Text>
+					<Text style={conversationStyles.messageText}>{item.msg}</Text>
+				</View>
+			</View>
+			<View style={conversationStyles.parentMode}>
+				<MaterialCommunityIcons
+					//name={parentIcon}
+					size={30}
+					style={conversationStyles.parentChild}
+				/>
+			</View>
+		</RectButton>
+	);
 }
 
-export default function (navigation) {
-  return <ConversationsView navigation={navigation} />;
+function RenderFooter({ isSupervisor, func }) {
+	if (isSupervisor) {
+		return (
+			<View style={footerStyle.footerBox}>
+				<View style={[ footerStyle.conversationsButton, footerStyle.active ]}>
+					<View style={footerStyle.iconPadding}>
+						<Image
+							source={require('../img/Chat/ChattKonvoTransp.png')}
+							style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
+						/>
+					</View>
+				</View>
+
+				<TouchableOpacity style={[ footerStyle.supervisionsButton, footerStyle.inactive ]} onPress={func}>
+					<View style={footerStyle.iconPadding}>
+						<Image
+							source={require('../img/Supervise/SuperviseEye.png')}
+							style={[ { resizeMode: 'contain' }, footerStyle.supIcon ]}
+						/>
+					</View>
+				</TouchableOpacity>
+			</View>
+		);
+	} else {
+		return <View />;
+	}
+}
+
+export default function(navigation) {
+	return <ConversationsView navigation={navigation} />;
 }
