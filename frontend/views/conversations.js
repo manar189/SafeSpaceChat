@@ -121,26 +121,14 @@ function OptionButton({ item, func }) {
 	console.log('item: ' + JSON.stringify(item));
 	return (
 		<RectButton style={conversationStyles.option} onPress={func}>
-			<View style={{ flexDirection: 'row' }}>
-				<View style={conversationStyles.optionIconContainer}>
-					<Entypo name={item.icon} size={40} color="#4499a9" />
+			<View style={[ conversationStyles.optionTextContainer, conversationStyles.isSupervised ]}>
+				<View style={conversationStyles.text}>
+					<Text style={conversationStyles.optionText}>{item.label}</Text>
+					<Text style={conversationStyles.messageText}>{item.msg}</Text>
 				</View>
-				<View style={[ conversationStyles.optionTextContainer, conversationStyles.isSupervised ]}>
-					<View>
-						<Text style={conversationStyles.optionText}>{item.label}</Text>
-						<Text style={conversationStyles.messageText}>{item.msg}</Text>
-					</View>
-					<Image
-						source={require('../img/Eye/EyeLight.png')}
-						style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
-					/>
-				</View>
-			</View>
-			<View style={conversationStyles.parentMode}>
-				<MaterialCommunityIcons
-					//name={parentIcon}
-					size={30}
-					style={conversationStyles.parentChild}
+				<Image
+					source={require('../img/Eye/EyeMix.png')}
+					style={[ { resizeMode: 'contain' }, conversationStyles.eyeIcon ]}
 				/>
 			</View>
 		</RectButton>

@@ -19,7 +19,7 @@ class StartView extends Component {
 		return (
 			<View style={startStyles.container}>
 				<Image
-					source={require('../img/Logo/SafeSpaceLight.png')}
+					source={require('../img/Logo/SafeSpaceLightBlue.png')}
 					style={[ { width: 200, height: 130, resizeMode: 'contain' }, startStyles.logo ]}
 				/>
 
