@@ -1,61 +1,70 @@
 @import 'colors';
 
 .container {
-  background-color: $bgColorStart;
-  height: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
+	background-color: $bgColorStart;
+	height: 100%;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
 }
 
 .logo {
-  height: 50;
-  width: 50;
+	height: 50;
+	width: 50;
 }
 
 .textInput {
-  height: 45;
-  width: 90%;
-  background-color: $textInputColor;
+	height: 45;
+	width: 90%;
+	background-color: $textInputColor;
 
-  padding-left: 10;
+	padding-left: 10;
 }
 
 .textLabel {
-  color: $whiteTextColor;
-  align-self: flex-start;
-  margin-left: 20;
-  margin-top: 30;
-  padding-bottom: 5;
+	color: $whiteTextColor;
+	align-self: flex-start;
+	margin-left: 20;
+	margin-top: 30;
+	padding-bottom: 5;
 }
 
 .margin {
-  margin-top: 40%;
+	margin-top: 40%;
 }
 
 .errorMsg {
-  color: red;
-  margin-top: 40;
+	color: red;
+	margin-top: 40;
 }
 
 .camera {
-  background-color: $whiteTextColor;
-  margin-top: 50;
-  height: 50%;
-  width: 70%;
-  //align-self: center;
+	background-color: $whiteTextColor;
+	margin-top: 50;
+	height: 50%;
+	width: 70%;
 }
 
+.instructionsBox {
+	margin-left: 4rem;
+	margin-right: 4rem;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(19, 59, 67, 0.5);
+}
 .instructions {
-  color: $whiteTextColor;
-  font-size: 20;
-  align-self: center;
-  margin-top: 6rem;
+	color: rgba(193, 204, 203, 0.85);
+	font-weight: bold;
+	font-size: 20;
+	align-self: center;
+	margin-top: 40%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 
 .forgottenPsw {
-  color: $buttonColor;
-  margin-top: 3;
-  margin-left: 60%;
+	color: $buttonColor;
+	margin-top: 3;
+	margin-left: 60%;
 }

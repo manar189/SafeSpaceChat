@@ -19,18 +19,13 @@ $searchBorder: #707070;
 }
 
 .option {
-	padding-top: 5;
-	padding-left: 15;
+	padding-top: 6;
+	padding-left: 20;
+	padding-bottom: 6;
 }
 
 .text {
 	width: 50%;
-}
-
-.optionBox {
-	display: flex;
-	flex-direction: row;
-	background-color: lawngreen;
 }
 
 .optionText {
@@ -47,12 +42,11 @@ $searchBorder: #707070;
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	//background-color: indigo;
 }
 
 .eyeIcon {
-	height: 50;
-	width: 50;
+	height: 35;
+	width: 35;
 
 	margin-left: 20%;
 }
@@ -91,8 +85,24 @@ $searchBorder: #707070;
 .supervisedContact {
 	display: flex;
 	align-content: flex-end;
-
 	padding-top: 5;
+}
 
-	background-color: green;
+.naut {
+	height: 140;
+	width: 90;
+	transform: rotate(30deg);
+	margin-left: -45;
+	margin-top: 10%;
+}
+
+.noFriends {
+	display: flex;
+	align-items: center;
+	margin-top: 10%;
+}
+
+.noFriendsText {
+	font-size: 20;
+	color: $lightTextColor;
 }

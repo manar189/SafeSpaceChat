@@ -8,7 +8,6 @@ import buttonStyle from '../styles/button.scss';
 class StartView extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props);
 
 		this.state = {
 			navigation: this.props.navigation.navigation

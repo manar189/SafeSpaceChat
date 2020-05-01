@@ -1,33 +1,58 @@
 @import 'colors';
 
 .container {
-  background-color: $bgColor;
-  display: flex;
-  height: 100%;
+	background-color: $bgColor;
+	display: flex;
+	align-items: center;
+	height: 100%;
 }
 
-.content {
-  display: flex;
-  margin-top: 4rem;
-}
-.instructions {
-  color: $lightTextColor;
-  font-size: 20;
-  align-self: center;
-  margin-bottom: 1rem;
-}
-
-.camera {
-  //background-color: red;
-  height: 54.4%;
-  width: 70%;
-  align-self: center;
+.instructionsCamera {
+	color: rgba(193, 204, 203, 0.85);
+	font-weight: bold;
+	font-size: 20;
+	align-self: center;
+	margin-top: 40%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 
-.switch {
-  display: flex;
-  flex-direction: row;
+.instructionsQR {
+	color: $lightTextColor;
+	font-weight: bold;
+	font-size: 20;
+	align-self: center;
+	margin-top: 20%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
 
-  align-self: center;
-  margin-top: 50;
+.instructionBoxCamera {
+	height: 100%;
+	width: 100%;
+	background-color: rgba(19, 59, 67, 0.5);
+}
+
+.instructionBoxQR {
+	width: 100%;
+}
+
+.QRcode {
+	margin-top: 10%;
+}
+
+.switchCamera {
+	display: flex;
+	flex-direction: row;
+
+	align-self: center;
+	margin-top: 17rem;
+}
+
+.switchQR {
+	display: flex;
+	flex-direction: row;
+
+	align-self: center;
+	margin-top: 3.5rem;
 }

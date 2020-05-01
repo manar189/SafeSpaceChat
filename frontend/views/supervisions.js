@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import supervisionStyles from '../styles/supervisions';
 import { TouchableOpacity, RectButton } from 'react-native-gesture-handler';
-import { EvilIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text, FlatList, Image } from 'react-native';
 import conversationStyles from '../styles/conversations';
 import footerStyle from '../styles/footer';
@@ -24,7 +24,6 @@ class SupervisionsView extends Component {
 
 	async componentDidMount() {
 		const loadedSupervisions = await loadSupervision(this.state.userId);
-		console.log(loadedSupervisions.data);
 
 		if (!loadedSupervisions.data) {
 			console.log('Inga övervakningar');
@@ -37,7 +36,7 @@ class SupervisionsView extends Component {
 		this.state.navigation.setOptions({
 			headerRight: () => (
 				<TouchableOpacity style={conversationStyles.addFriendButton}>
-					<FontAwesome name="child" size={40} color="white" />
+					<MaterialIcons name="add" size={40} color="white" />
 				</TouchableOpacity>
 			)
 		});
@@ -80,7 +79,7 @@ class SupervisionsView extends Component {
 								}}
 							>
 								<Image
-									source={require('../img/Chat/ChattKonvoTransp.png')}
+									source={require('../img/Chat/ChattKonvoFinal.png')}
 									style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
 								/>
 							</TouchableOpacity>
@@ -90,7 +89,7 @@ class SupervisionsView extends Component {
 					<View style={[ footerStyle.supervisionsButton, footerStyle.active ]}>
 						<View style={footerStyle.iconPadding}>
 							<Image
-								source={require('../img/Supervise/SuperviseGrey.png')}
+								source={require('../img/Supervise/SuperviseEyeGrey.png')}
 								style={[ { resizeMode: 'contain' }, footerStyle.supIcon ]}
 							/>
 						</View>

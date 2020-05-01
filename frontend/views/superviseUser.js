@@ -5,9 +5,9 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import conversationStyles from '../styles/conversations';
 import superviseStyle from '../styles/supervise';
-import footerStyle from '../styles/footer';
 
 import superviseUser from '../connections/superviseUser';
+import footerStyle from '../styles/footer';
 
 class SuperviseUser extends Component {
 	constructor(props) {
@@ -25,22 +25,17 @@ class SuperviseUser extends Component {
 
 	async componentDidMount() {
 		const loadedData = await superviseUser(this.state.supervisedUserId);
-		console.log('loaded data : ' + JSON.stringify(loadedData.data));
 
 		this.setState({
 			supervisedData: loadedData.data
 		});
 	}
 
-	// nMessages: conversation.messages.length,
-	// messageDate: date
-	// 2020-03-11T07:48:23.196+00:00
-
 	setHeaderOptions() {
 		this.state.navigation.setOptions({
 			headerRight: () => (
 				<TouchableOpacity style={conversationStyles.addFriendButton}>
-					<FontAwesome name="child" size={40} color="white" />
+					<FontAwesome name="qrcode" size={40} color="white" style={{ marginRight: 5 }} />
 				</TouchableOpacity>
 			),
 			title: this.state.supervisedUserName
@@ -57,11 +52,11 @@ class SuperviseUser extends Component {
 					contentContainerStyle={conversationStyles.contentContainer}
 					data={this.state.supervisedData}
 					keyExtractor={(supervised, index) => {
-						supervised.messageDate.toString();
+						supervised.conversationId;
 					}}
 					renderItem={({ item }) => (
 						<View style={superviseStyle.supervisedUserContact}>
-							<Text style={superviseStyle.name}>{'Kontaktens namn'}</Text>
+							<Text style={superviseStyle.name}>{item.otherUserName}</Text>
 							<Text style={superviseStyle.data}>
 								{item.nMessages + ' meddelanden. '}
 								{'Senast: ' + item.messageDate.slice(0, 10)}
@@ -85,7 +80,7 @@ class SuperviseUser extends Component {
 						>
 							<View style={footerStyle.iconPadding}>
 								<Image
-									source={require('../img/Chat/ChattKonvoTransp.png')}
+									source={require('../img/Chat/ChattKonvoFinal.png')}
 									style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
 								/>
 							</View>
@@ -103,7 +98,7 @@ class SuperviseUser extends Component {
 						>
 							<View style={footerStyle.iconPadding}>
 								<Image
-									source={require('../img/Supervise/SuperviseGrey.png')}
+									source={require('../img/Supervise/SuperviseEye.png')}
 									style={[ { resizeMode: 'contain' }, footerStyle.supIcon ]}
 								/>
 							</View>

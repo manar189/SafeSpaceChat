@@ -7,16 +7,15 @@ const userSchema = new Schema({
   UserId: String,
   fullName: {
     type: String,
-    //required: true,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    //required: true,
   },
   password: {
     type: String,
-    //required: true,
+    required: true,
   },
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +27,7 @@ const userSchema = new Schema({
   }],
   isSupervisor: {
     type: Boolean,
-    //required: true,
+    required: true,
   },
   supervisions: [{
     type: mongoose.Schema.Types.ObjectId,

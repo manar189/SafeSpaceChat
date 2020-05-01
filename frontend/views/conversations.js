@@ -6,21 +6,14 @@ npm install @react-navigation/stack
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view */
 
 import React, { Component } from 'react';
-import io from 'socket.io-client';
 
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
 import conversationStyles from '../styles/conversations';
 import footerStyle from '../styles/footer';
 import loadFriends from '../connections/loadFriends';
-
-/*
-    - Vid för många konversationer i listan blir det skumt, jag vet dock inte vart problemet ligger.
-    - Sökrutan saknar funktion
-*/
 
 class ConversationsView extends Component {
 	constructor(props) {
@@ -37,10 +30,7 @@ class ConversationsView extends Component {
 	}
 
 	async componentDidMount() {
-		console.log('user id in conversation: ' + this.state.userId);
 		const loadedFriends = await loadFriends(this.state.userId);
-		console.log('loadedFriends in conversation: ' + loadedFriends);
-
 		if (!loadedFriends.data) {
 			console.log('Inga vänner');
 		} else {
@@ -50,11 +40,7 @@ class ConversationsView extends Component {
 
 	setHeaderOptions() {
 		this.state.navigation.setOptions({
-			headerLeft: () => (
-				<TouchableOpacity style={conversationStyles.profileButton}>
-					<EvilIcons name="user" size={40} color="white" />
-				</TouchableOpacity>
-			),
+			headerLeft: () => null,
 			headerRight: () => (
 				<TouchableOpacity
 					style={conversationStyles.addFriendButton}
@@ -62,10 +48,9 @@ class ConversationsView extends Component {
 						this.state.navigation.navigate('AddFriend', {
 							userId: this.state.userId
 						});
-						console.log('add friend');
 					}}
 				>
-					<EvilIcons name="plus" size={40} color="white" />
+					<MaterialIcons name="person-add" size={40} color="white" style={{ marginRight: 5 }} />
 				</TouchableOpacity>
 			)
 		});
@@ -81,26 +66,42 @@ class ConversationsView extends Component {
 					contentContainerStyle={conversationStyles.contentContainer}
 					data={this.state.conversations}
 					keyExtractor={(conversation, index) => conversation.conversationId.toString()}
-					renderItem={({ item }) => (
-						<OptionButton
-							item={item}
-							func={() => {
-								this.state.navigation.navigate('ChatView', {
-									userId: this.state.userId,
-									conversationId: item.conversationId,
-									userName: item.label,
-									receiverId: item.userId
-								});
-								console.log(item.conversationId);
-							}}
-						/>
-					)}
+					renderItem={({ item }) => {
+						return (
+							<OptionButton
+								item={item}
+								func={() => {
+									this.state.navigation.navigate('ChatView', {
+										userId: this.state.userId,
+										conversationId: item.conversationId,
+										userName: item.label,
+										receiverId: item.userId
+									});
+								}}
+							/>
+						);
+					}}
 					ItemSeparatorComponent={() => {
 						return <View style={conversationStyles.separator} />;
 					}}
 					ListHeaderComponent={
 						<View style={conversationStyles.searchConvBox}>
 							<TextInput style={conversationStyles.searchConv} placeholder={'Sök...'} />
+						</View>
+					}
+					ListFooterComponent={
+						<View style={conversationStyles.nautView}>
+							<Image
+								source={require('../img/Mascot/Clean.png')}
+								style={[ { resizeMode: 'contain' }, conversationStyles.naut ]}
+							/>
+						</View>
+					}
+					ListEmptyComponent={
+						<View style={conversationStyles.noFriends}>
+							<Text style={conversationStyles.noFriendsText}>
+								Lägg till en kontakt för att kunna chatta
+							</Text>
 						</View>
 					}
 				/>
@@ -118,18 +119,30 @@ class ConversationsView extends Component {
 }
 
 function OptionButton({ item, func }) {
-	console.log('item: ' + JSON.stringify(item));
+	console.log('items: ' + item);
+	if (item.supervised) {
+		return (
+			<RectButton style={conversationStyles.option} onPress={func}>
+				<View style={[ conversationStyles.optionTextContainer, conversationStyles.isSupervised ]}>
+					<View style={conversationStyles.text}>
+						<Text style={conversationStyles.optionText}>{item.label}</Text>
+						<Text style={conversationStyles.messageText}>{item.msg}</Text>
+					</View>
+					<Image
+						source={require('../img/Eye/EyeMix.png')}
+						style={[ { resizeMode: 'contain' }, conversationStyles.eyeIcon ]}
+					/>
+				</View>
+			</RectButton>
+		);
+	}
 	return (
 		<RectButton style={conversationStyles.option} onPress={func}>
-			<View style={[ conversationStyles.optionTextContainer, conversationStyles.isSupervised ]}>
+			<View style={[ conversationStyles.optionTextContainer ]}>
 				<View style={conversationStyles.text}>
 					<Text style={conversationStyles.optionText}>{item.label}</Text>
 					<Text style={conversationStyles.messageText}>{item.msg}</Text>
 				</View>
-				<Image
-					source={require('../img/Eye/EyeMix.png')}
-					style={[ { resizeMode: 'contain' }, conversationStyles.eyeIcon ]}
-				/>
 			</View>
 		</RectButton>
 	);
@@ -142,7 +155,7 @@ function RenderFooter({ isSupervisor, func }) {
 				<View style={[ footerStyle.conversationsButton, footerStyle.active ]}>
 					<View style={footerStyle.iconPadding}>
 						<Image
-							source={require('../img/Chat/ChattKonvoTransp.png')}
+							source={require('../img/Chat/ChattKonvoFinal.png')}
 							style={[ { resizeMode: 'contain' }, footerStyle.convIcon ]}
 						/>
 					</View>
