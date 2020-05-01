@@ -1,0 +1,33 @@
+@import 'colors';
+
+.container {
+  background-color: $bgColor;
+  display: flex;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  margin-top: 4rem;
+}
+.instructions {
+  color: $lightTextColor;
+  font-size: 20;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.camera {
+  //background-color: red;
+  height: 54.4%;
+  width: 70%;
+  align-self: center;
+}
+
+.switch {
+  display: flex;
+  flex-direction: row;
+
+  align-self: center;
+  margin-top: 50;
+}

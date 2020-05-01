@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import ChatView from './frontend/views/chat';
+
+import MainStackNavigator from './frontend/navigation/MainStackNavigator';
 
 export default function App() {
-  return <ChatView></ChatView>;
+  return <MainStackNavigator />;
 }

@@ -1,0 +1,29 @@
+.instructions {
+  margin-left: 10;
+  margin-right: 10;
+  font-size: 16;
+}
+
+.title {
+  font-weight: bold;
+  margin-top: 10;
+  margin-left: 10;
+  margin-right: 10;
+  font-size: 16;
+}
+
+.helpBox {
+  height: 70%;
+  width: 70%;
+
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  justify-items: center;
+
+  margin-top: 20;
+}
+
+.marginTop {
+  margin-top: 10;
+}

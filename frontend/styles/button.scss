@@ -1,0 +1,35 @@
+@import 'colors';
+
+.button {
+  background-color: $buttonColor;
+  margin-top: 30;
+
+  border-radius: 10px;
+
+  padding-left: 16;
+  padding-right: 16;
+  padding-bottom: 12;
+  padding-top: 12;
+
+  border: solid 1px $footer;
+}
+
+.text {
+  font-size: 16;
+  font-weight: bold;
+  color: white;
+}
+
+.startButton {
+  padding-bottom: 18;
+  padding-top: 18;
+
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.ok {
+  padding-left: 16;
+  padding-right: 16;
+}
