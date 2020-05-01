@@ -19,7 +19,7 @@ module.exports = async function login(req, res) {
           status: 'error',
           error: 'Incorrect password!',
         });
-      }
+      } 
       else{
         res.status(200).json({
           status: 'succes',

@@ -48,6 +48,15 @@ export default class SignIn extends Component {
 
 		if (loginResult.status == 'error') {
 			console.log(loginResult.error);
+			if (this.state.email == '' && this.state.password == '') {
+				this.setState({
+					error: 'Fyll i e-post och/eller lösenord'
+				});
+			} else {
+				this.setState({
+					error: 'Fel e-post och/eller lösenord'
+				});
+			}
 		} else if (authenticated) {
 			console.log('Signing in...');
 
