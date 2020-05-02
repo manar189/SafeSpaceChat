@@ -65,6 +65,11 @@ class SupervisionsView extends Component {
 					ItemSeparatorComponent={() => {
 						return <View style={conversationStyles.separator} />;
 					}}
+					ListEmptyComponent={
+						<View style={conversationStyles.noFriends}>
+							<Text style={conversationStyles.noFriendsText}>Skapa ett nytt konto för att övervaka</Text>
+						</View>
+					}
 				/>
 
 				<View style={footerStyle.footerBox}>
