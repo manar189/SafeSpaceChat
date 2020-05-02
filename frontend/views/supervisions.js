@@ -35,7 +35,13 @@ class SupervisionsView extends Component {
 	setHeaderOptions() {
 		this.state.navigation.setOptions({
 			headerRight: () => (
-				<TouchableOpacity style={conversationStyles.addFriendButton}>
+				<TouchableOpacity
+					style={conversationStyles.addFriendButton}
+					onPress={() =>
+						this.state.navigation.navigate('SuperviseNewQR', {
+							userId: this.state.userId
+						})}
+				>
 					<MaterialIcons name="add" size={40} color="white" />
 				</TouchableOpacity>
 			)

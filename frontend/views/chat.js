@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 
-import { Text, View, TextInput, TouchableOpacity, FlatList, Animated } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, FlatList, Animated, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import config from '../../backend/config';
@@ -27,10 +27,6 @@ class ChatView extends Component {
 		};
 	}
 
-	/*  FÖR ATT FÅ KODEN ATT FUNKA PÅ DIN DATOR MÅSTE DU BYTA host: I ./backend/config TILL DIN LOKALA HEMMA!!!
-
-      -Ibland hoppar meddelandena när man skickat nytt, oklart varför. 
-*/
 	async componentDidMount() {
 		const loadedMessages = await loadMessages(this.state.conversationId);
 
@@ -53,12 +49,6 @@ class ChatView extends Component {
 			this.renderNewMessage(incomingMessage);
 		});
 	}
-
-	// componentWillUnmount() {
-	//   this.socket.emit('disconnect', {
-	//     senderId: this.state.userId,
-	//   });
-	// }
 
 	submitChatMessage = () => {
 		const newMessage = {
@@ -99,6 +89,19 @@ class ChatView extends Component {
 					renderItem={({ item }) => <ChatMessage msg={item} userId={this.state.userId} />}
 					keyExtractor={(renderMessage) => renderMessage._id}
 					inverted
+					ListEmptyComponent={
+						<View style={chatStyles.noMsgView}>
+							<View style={chatStyles.noMsg}>
+								<Text style={chatStyles.noMsgText}>
+									Skriv ett meddelande till {this.state.userName}
+								</Text>
+							</View>
+							<Image
+								source={require('../img/Mascot/Clean.png')}
+								style={[ { resizeMode: 'contain' }, chatStyles.naut ]}
+							/>
+						</View>
+					}
 				/>
 
 				<View style={chatStyles.inputBox}>
@@ -135,7 +138,6 @@ class ChatView extends Component {
 }
 
 function ChatMessage({ msg, userId }) {
-	//console.log(JSON.stringify(msg));
 	if (msg.userId != userId) {
 		return (
 			<View style={[ chatStyles.msg, chatStyles.msgRecieved ]}>

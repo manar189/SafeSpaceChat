@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import { EvilIcons } from '@expo/vector-icons';
 
-import { Text, View, StyleSheet, Alert } from 'react-native';
-import { Switch } from 'react-native-switch';
-import Constants from 'expo-constants';
+import { Text, View } from 'react-native';
+
 import { QRCode } from 'react-native-custom-qr-codes-expo';
 
 import addFriendStyles from '../styles/addFriend.scss';
-import addFriend from '../connections/addFriend.js';
-
-/*
-    I brist på andra ikoner satte jag dessa tillfälligt.
-*/
 
 class SuperviseNewQr extends Component {
 	constructor(props) {
@@ -24,26 +17,10 @@ class SuperviseNewQr extends Component {
 	}
 
 	render() {
-		const ICON_ACTIVE_COLOR = '#4499A9';
-		const ICON_INACTIVE_COLOR = '#C2C2C2';
-		const BACKGROUND_COLOR = '#FFFFFF';
-		const CIRCLE_COLOR = '#707070';
-
-		var instructions = '';
-		var colorCodeIcon = '';
-		var colorCameraIcon = '';
-
-		instructions = 'Din QR-kod';
-		colorCameraIcon = ICON_INACTIVE_COLOR;
-		colorCodeIcon = ICON_ACTIVE_COLOR;
-
 		return (
 			<View style={addFriendStyles.container}>
-				<View style={addFriendStyles.content}>
-					<Text style={addFriendStyles.instructions}>{instructions}</Text>
-					<View style={addFriendStyles.camera}>
-						<QRCode content={this.state.userId} codeStyle="circle" innerEyeStyle="circle" />
-					</View>
+				<View style={addFriendStyles.QRcodeNew}>
+					<QRCode content={this.state.userId} codeStyle="circle" innerEyeStyle="circle" />
 				</View>
 			</View>
 		);

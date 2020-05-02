@@ -41,6 +41,9 @@
 	margin-top: 10%;
 }
 
+.QRcodeNew {
+	margin-top: 30%;
+}
 .switchCamera {
 	display: flex;
 	flex-direction: row;
@@ -55,4 +58,11 @@
 
 	align-self: center;
 	margin-top: 3.5rem;
+}
+
+.userName {
+	font-size: 25;
+	color: $lightTextColor;
+	margin-top: 20%;
+	margin-bottom: 5%;
 }

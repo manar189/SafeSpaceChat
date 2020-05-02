@@ -34,7 +34,14 @@ class SuperviseUser extends Component {
 	setHeaderOptions() {
 		this.state.navigation.setOptions({
 			headerRight: () => (
-				<TouchableOpacity style={conversationStyles.addFriendButton}>
+				<TouchableOpacity
+					style={conversationStyles.addFriendButton}
+					onPress={() =>
+						this.state.navigation.navigate('SuperviseSignInQR', {
+							userId: this.state.supervisedUserId,
+							name: this.state.supervisedUserName
+						})}
+				>
 					<FontAwesome name="qrcode" size={40} color="white" style={{ marginRight: 5 }} />
 				</TouchableOpacity>
 			),
