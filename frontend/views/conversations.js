@@ -7,7 +7,7 @@ expo install react-native-gesture-handler react-native-reanimated react-native-s
 
 import React, { Component } from 'react';
 
-import { View, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TextInput, TouchableOpacity, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -25,7 +25,8 @@ class ConversationsView extends Component {
 			isSupervisor: routeParams.isSupervisor,
 			navigation: this.props.navigation.navigation,
 			conversations: [],
-			error: ''
+			error: '',
+			isRefreshing: false,
 		};
 	}
 
@@ -56,6 +57,12 @@ class ConversationsView extends Component {
 		});
 	}
 
+	onRefresh() {
+		this.setState({ isRefreshing: true });
+		this.componentDidMount();
+		this.setState({isRefreshing:false,});
+	  }
+
 	render() {
 		this.setHeaderOptions();
 
@@ -65,6 +72,12 @@ class ConversationsView extends Component {
 					style={conversationStyles.container}
 					contentContainerStyle={conversationStyles.contentContainer}
 					data={this.state.conversations}
+					refreshControl={
+						<RefreshControl
+						  refreshing={this.state.isRefreshing}
+						  onRefresh={this.onRefresh.bind(this)}
+						/>
+					  }
 					keyExtractor={(conversation, index) => conversation.conversationId.toString()}
 					renderItem={({ item }) => {
 						return (
@@ -119,7 +132,7 @@ class ConversationsView extends Component {
 }
 
 function OptionButton({ item, func }) {
-	console.log('items: ' + item);
+	//console.log('items: ' + item);
 	if (item.supervised) {
 		return (
 			<RectButton style={conversationStyles.option} onPress={func}>
@@ -177,5 +190,6 @@ function RenderFooter({ isSupervisor, func }) {
 }
 
 export default function(navigation) {
+	
 	return <ConversationsView navigation={navigation} />;
 }
